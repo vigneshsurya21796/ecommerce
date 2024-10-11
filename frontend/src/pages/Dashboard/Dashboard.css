@@ -1,0 +1,30 @@
+.Grid_conatiner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 55px;
+}
+.Product_container {
+  width: 20rem;
+  height: 18rem;
+  /* background-color: rgba(128, 128, 128, 0.425); */
+  border: 1px solid black;
+}
+/* .img_container {
+  width: 100%;
+  height: 15rem;
+  margin: auto;
+} */
+.img_container img {
+  width: 100%;
+
+  height: 200px;
+  padding: 10px;
+  object-fit: cover;
+}
+.Details_flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+}
