@@ -16,6 +16,8 @@ function Singlepage() {
 
   useEffect(() => {
     dispatch(productslist());
+    console.log("working");
+    
   }, [dispatch]);
 
   useEffect(() => {
