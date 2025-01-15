@@ -11,13 +11,13 @@ function Dashboard() {
   const { user } = useSelector((state) => state.auth);
   const { products } = useSelector((state) => state.products);
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(user);
     console.log(products.products);
     if (!user) {
       navigate("/Login");
     }
-  }, [user]);
+  }, [user]); */
   useEffect(() => {
     dispatch(productslist());
   }, []);

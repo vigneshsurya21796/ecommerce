@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Texts = require("../model/goalmodel");
 const User = require("../model/usermodel");
+// 
 const gettexts = asyncHandler(async (req, res) => {
   const texts = await Texts.find({ user: req.user.id });
 

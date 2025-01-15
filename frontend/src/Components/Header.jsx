@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../features/Auth/authSlice";
+import { ShoppingCart } from "lucide-react";
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,15 +21,23 @@ function Header() {
       </div>
       <ul>
         <li>
-          <FaUser />
-          <Link to="/">Register</Link>
+          <Link to="/Addtocart">
+            <ShoppingCart />
+          </Link>
         </li>
+        <li>
+          <FaUser />
+          <Link to="/Register">Register</Link>
+        </li>
+
         {user ? (
           <li>
-            <button className="btn" onClick={Logout}>
+            {/*  <button className="btn" onClick={Logout}>
               <FaSignOutAlt />
-              Logout
-            </button>
+              Login
+            </button> */}
+            <FaSignInAlt />
+            <Link to="/Login">Login</Link>
           </li>
         ) : (
           <li>

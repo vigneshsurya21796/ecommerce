@@ -16,10 +16,11 @@ function App() {
         <div className="container">
           <Header />
           <Routes>
-            <Route path="/" element={<Register />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/Login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/Register" element={<Register />} />
             <Route path="/singlepage/:id" element={<Singlepage />} />
+            <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>
         </div>
       </Router>

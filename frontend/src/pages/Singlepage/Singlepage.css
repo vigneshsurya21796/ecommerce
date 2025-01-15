@@ -84,9 +84,22 @@
   font-weight: 700;
   color: white;
 }
-.add_to_cart:hover{
+.add_to_cart:hover {
   background-color: #0000ff77;
   cursor: pointer;
   transition: all 0.3s;
 }
-/*  */
+.quantity_controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.quantity_controls button {
+  background-color: yellow;
+  border: none;
+  outline: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 23px;
+}
