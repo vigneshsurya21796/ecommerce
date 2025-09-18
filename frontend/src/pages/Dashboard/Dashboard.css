@@ -1,0 +1,37 @@
+.Grid_conatiner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 55px;
+}
+.Product_container {
+  width: 23rem;
+  height: 30rem;
+  transition: all 0.3s ease;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  /* background-color: rgba(128, 128, 128, 0.425); */
+  /* border: 1px solid black; */
+}
+.Product_container:hover {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+.img_container {
+  max-width: 100%;
+  height: 400px;
+  margin: auto;
+}
+.img_container img {
+  width: 100%;
+
+  height: 100%;
+  padding: 10px;
+  /* object-fit: cover; */
+}
+.Details_flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+}
