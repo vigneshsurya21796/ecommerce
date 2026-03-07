@@ -71,11 +71,11 @@ const Addtocart = () => {
               <span></span>
             </div>
 
-            <div>subtotal:{totalPrice}</div>
+            <div className="text-green-500">subtotal:{totalPrice}</div>
             <div>Shipping fee: {shippingfee}</div>
             <div>Total: {totalPrice + shippingfee}</div>
             <div>
-              <button>
+              <button className="bg-green-500">
                 <Link to="/payment"> Proceed to checkout</Link>
               </button>
             </div>

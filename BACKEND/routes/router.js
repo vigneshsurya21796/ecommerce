@@ -12,4 +12,5 @@ const { protect } = require("../middleware/authmiddleware");
 router.route("/").get(protect, gettexts).post(protect,postexts);
 router.route("/:id").put(protect,puttexts).delete(protect,deletetexts);
 
+
 module.exports = router;
