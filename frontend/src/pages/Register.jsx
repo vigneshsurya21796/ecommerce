@@ -1,17 +1,17 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { register, reset } from "../features/Auth/authSlice";
 
 import Spinner from "./Spinner";
+
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isError, isLoading, isSuccess, message } = useSelector(
-    (state) => state.auth
+    (state) => state.auth,
   );
   const [formdata, setformdata] = useState({
     name: "",
@@ -26,7 +26,7 @@ function Register() {
     console.log(isSuccess);
     console.log(user);
     if (isSuccess && user) {
-      navigate("/dashboard");
+      navigate("/");
     }
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
@@ -37,6 +37,7 @@ function Register() {
       [e.target.name]: e.target.value,
     }));
   };
+
   const onsubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
@@ -51,18 +52,18 @@ function Register() {
     }
   };
   if (isLoading) {
-    <Spinner />;
+    return <Spinner />;
   }
   return (
     <>
       <section className="header">
-        <h1>
+        <h1 className="flex flex-row gap-3 justify-center items-center">
           <FaUser />
           Register
         </h1>
         <p>Please create an account</p>
       </section>
-      <section className="form">
+      <section className="form py-3">
         <form onSubmit={onsubmit}>
           <div className="form-group">
             <input
@@ -102,14 +103,17 @@ function Register() {
               type="password"
               name="password2"
               value={password2}
-              placeholder="Please enter your password2"
+              placeholder="Please confirm your password"
               // id="password2"
               className="form-control"
               onChange={onchange}
             />
           </div>
           <div>
-            <button type="submit" className="btn btn-block">
+            <button
+              type="submit"
+              className=" px-5 py-1 bg-purple-500 text-white rounded-md hover:bg-purple-700 duration-75 transition"
+            >
               Submit
             </button>
           </div>

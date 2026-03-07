@@ -42,7 +42,7 @@ function Header() {
         {user ? (
           <li>
             <FaSignInAlt />
-            <Link to="/Login">Login</Link>
+            <button onClick={Logout}>Logout</button>
           </li>
         ) : (
           <li>

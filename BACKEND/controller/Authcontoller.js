@@ -37,7 +37,7 @@ const puttexts = asyncHandler(async (req, res) => {
     req.params.id,
     req.body,
     {
-      news: true,
+      new: true,
     }
   );
   return res.status(200).json(updated_textitem);
