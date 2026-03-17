@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productslist } from "../../features/Products/Productsslice";
 import FilterComponent from "../../Components/filter";
-import { Heart, Star, Plus } from "lucide-react"; // ✅ Lucide icons
+import { FaHeart, FaStar, FaRegStar, FaPlus } from "react-icons/fa";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -72,24 +72,17 @@ function Dashboard() {
   const renderStars = (rating) => {
     return (
         <div className="flex items-center">
-          {[...Array(5)].map((_, i) => (
-              <Star
-                  key={i}
-                  size={12}
-                  strokeWidth={2}
-                  className={
-                    i < Math.floor(rating)
-                        ? "text-yellow-400 fill-yellow-400"
-                        : "text-gray-300"
-                  }
-              />
-          ))}
+          {[...Array(5)].map((_, i) =>
+              i < Math.floor(rating)
+                  ? <FaStar key={i} size={12} className="text-yellow-400" />
+                  : <FaRegStar key={i} size={12} className="text-gray-300" />
+          )}
         </div>
     );
   };
 
   return (
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-slate-50">
         <div className="container mx-auto px-4 py-6">
           {/* Header Section */}
           <div className="flex justify-between items-center mb-6">
@@ -99,7 +92,7 @@ function Dashboard() {
               <select
                   value={sortBy}
                   onChange={handleSortChange}
-                  className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="default">Default</option>
                 <option value="price-low-high">Price: Low to High</option>
@@ -130,65 +123,50 @@ function Dashboard() {
                 {filteredProducts.map((product, idx) => (
                     <div
                         key={product.id || idx}
-                        className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden group"
+                        className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col relative"
                     >
-                      <Link to={`/singlepage/${product.id}`} className="block">
-                        {/* Product Image */}
-                        <div className="relative bg-gray-50 h-48 flex items-center justify-center">
-                          <img
-                              src={product.image}
-                              alt={product.title}
-                              className="max-w-full max-h-full object-contain p-4"
-                          />
-                          {product.salePrice && (
-                              <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
-                                Sale
-                              </div>
-                          )}
-                          <button className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-sm hover:bg-gray-100 transition-colors">
-                            {/*<Heart*/}
-                            {/*    size={16}*/}
-                            {/*    strokeWidth={2}*/}
-                            {/*    className="text-gray-400 hover:text-red-500"*/}
-                            {/*/>*/}
-                          </button>
-                        </div>
+                      {/* Wishlist button */}
+                      <button className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white shadow-md hover:bg-red-50 transition-colors">
+                        <FaHeart size={15} className="text-gray-300" />
+                      </button>
 
-                        {/* Product Info */}
-                        <div className="p-4">
-                          <div className="text-xs text-blue-600 font-medium uppercase tracking-wide mb-1">
-                            {product.category}
-                          </div>
-                          <h3 className="text-sm font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                      {/* Image */}
+                      <Link to={`/singlepage/${product.id}`} className="bg-gray-50 h-52 flex items-center justify-center overflow-hidden">
+                        <img
+                            src={product.image}
+                            alt={product.title}
+                            className="max-w-full max-h-full object-contain p-5 group-hover:scale-110 transition-transform duration-300"
+                        />
+                      </Link>
+
+                      {/* Info */}
+                      <div className="p-4 flex flex-col flex-1">
+                        <div className="text-xs text-indigo-600 font-semibold uppercase tracking-wider mb-1">
+                          {product.category}
+                        </div>
+                        <Link to={`/singlepage/${product.id}`}>
+                          <h3 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2 hover:text-indigo-600 transition-colors leading-snug">
                             {product.title}
                           </h3>
+                        </Link>
 
-                          {/* Rating */}
-                          <div className="flex items-center mb-2">
-                            {/*{renderStars(product.rating.rate)}*/}
-                            <span className="text-xs text-gray-500 ml-1">
-                          ({product.rating.count})
-                        </span>
-                          </div>
+                        {/* Stars + count */}
+                        <div className="flex items-center gap-1 mb-3">
+                          {renderStars(product.rating?.rate ?? 0)}
+                          <span className="text-xs text-gray-400 ml-1">({product.rating?.count ?? 0})</span>
+                        </div>
 
-                          {/* Price */}
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                          <span className="text-lg font-bold text-gray-900">
+                        {/* Price + Button */}
+                        <div className="mt-auto">
+                          <span className="text-xl font-bold text-gray-900 block mb-3">
                             ${product.price.toFixed(2)}
                           </span>
-                              {product.originalPrice && (
-                                  <span className="text-sm text-gray-500 line-through">
-                              ${product.originalPrice.toFixed(2)}
-                            </span>
-                              )}
-                            </div>
-                            <button className="w-8 h-8 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center transition-colors">
-                              {/*<Plus size={16} strokeWidth={2} />*/}
-                            </button>
-                          </div>
+                          <button className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-sm font-medium py-2.5 rounded-lg transition-colors">
+                            <FaPlus size={13} />
+                            Add to Cart
+                          </button>
                         </div>
-                      </Link>
+                      </div>
                     </div>
                 ))}
               </div>

@@ -16,16 +16,16 @@
 .cart__checkout button {
   border: none;
   padding: 10px 10px;
-  background-color: rgba(0, 0, 0, 0.632);
+  background-color: #6366f1;
   border-radius: 5px;
   cursor: pointer;
 }
 .cart__checkout button a {
-    color: #fff; /* Target the <Link> component */
-    text-decoration: none; /* Remove underline */
+    color: #fff;
+    text-decoration: none;
 }
 .cart__checkout button:hover {
-  background-color: black;
+  background-color: #4f46e5;
   transition: all 0.3s;
 }
 .cart__heading {
