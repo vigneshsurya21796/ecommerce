@@ -1,19 +1,34 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv").config();
-var cors = require("cors");
-
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const colors = require("colors");
 const PORT = process.env.PORT || 5000;
-// const connect = require("./DB/db");
 const router = require("./BACKEND/routes/router");
 const userrouter = require("./BACKEND/routes/userroutes");
+const orderrouter = require("./BACKEND/routes/orderroutes");
+const paymentrouter = require("./BACKEND/routes/paymentroutes");
 const { errorhandler } = require("./BACKEND/middleware/errorhandler");
-app.use(cors());
+
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",").map((o) => o.trim())
+  : ["http://localhost:3007", "http://localhost:3000"];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS blocked: ${origin}`));
+  },
+  credentials: true,
+}));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/goals", router);
 app.use("/users", userrouter);
+app.use("/orders", orderrouter);
+app.use("/payment", paymentrouter);
 const connectDB = require("./BACKEND/DB/db");
 const { urlencoded } = require("express");
 connectDB();

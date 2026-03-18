@@ -1,5 +1,5 @@
 import React from "react";
-import { FaSignInAlt, FaUser } from "react-icons/fa";
+import { FaSignInAlt, FaUser, FaClipboardList } from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -44,14 +44,27 @@ function Header() {
             )}
           </Link>
 
-          {/* Register */}
-          <Link
-            to="/Register"
-            className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
-          >
-            <FaUser size={13} />
-            Register
-          </Link>
+          {/* My Orders (only when logged in) */}
+          {user && (
+            <Link
+              to="/orders"
+              className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
+            >
+              <FaClipboardList size={13} />
+              My Orders
+            </Link>
+          )}
+
+          {/* Register (only when not logged in) */}
+          {!user && (
+            <Link
+              to="/Register"
+              className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
+            >
+              <FaUser size={13} />
+              Register
+            </Link>
+          )}
 
           {/* Login / Logout */}
           {user ? (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productslist } from "../../features/Products/Productsslice";
@@ -6,8 +6,9 @@ import {
   addToCart,
   decrementQuantity,
   incrementQuantity,
-} from "../../features/Cart/Cartslice";
-import { FaStar, FaRegStar, FaShoppingCart, FaArrowLeft } from "react-icons/fa";
+} from "../../features/Cart/cartSlice";
+import { FaStar, FaRegStar, FaShoppingCart, FaArrowLeft, FaFire } from "react-icons/fa";
+import ImageGallery from "../../Components/ImageGallery/ImageGallery";
 
 function Singlepage() {
   const [singleProduct, setSingleProduct] = useState(null);
@@ -43,6 +44,11 @@ function Singlepage() {
     }
   }, [products, id]);
 
+  // Scroll to top on product change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
+
   const renderStars = (rating) =>
     [...Array(5)].map((_, i) =>
       i < Math.floor(rating)
@@ -68,9 +74,26 @@ function Singlepage() {
 
   const cartItem = cart.find((item) => item.id === singleProduct.id);
 
-  const relatedProducts = products
+  // Same category, sorted by rating desc, exclude current product
+  const sameCategory = products
     .filter((p) => p.category === singleProduct.category && p.id !== singleProduct.id)
-    .slice(0, 4);
+    .sort((a, b) => (b.rating?.rate ?? 0) - (a.rating?.rate ?? 0));
+
+  // Recommendations: up to 4 from same category
+  const recommendations = sameCategory.slice(0, 4);
+
+  // Top picks fallback: highest rated across all categories (if recommendations < 4)
+  const topPicks = recommendations.length < 4
+    ? products
+        .filter((p) => p.id !== singleProduct.id && !recommendations.find((r) => r.id === p.id))
+        .sort((a, b) => (b.rating?.rate ?? 0) - (a.rating?.rate ?? 0))
+        .slice(0, 4 - recommendations.length)
+    : [];
+
+  const allRecommended = [...recommendations, ...topPicks];
+
+  // Build gallery: FakeStore has 1 image — structure supports multiple when you have your own product DB
+  const galleryImages = [singleProduct.image];
 
   return (
     <div className="min-h-screen bg-slate-50 py-8">
@@ -89,13 +112,9 @@ function Singlepage() {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="flex flex-col lg:flex-row">
 
-            {/* Left: Image */}
-            <div className="lg:w-1/2 bg-gray-50 flex items-center justify-center p-10 min-h-96">
-              <img
-                src={singleProduct.image}
-                alt={singleProduct.title}
-                className="max-w-full max-h-80 object-contain"
-              />
+            {/* Left: Image Gallery */}
+            <div className="lg:w-1/2 p-8">
+              <ImageGallery images={galleryImages} alt={singleProduct.title} />
             </div>
 
             {/* Right: Details */}
@@ -171,35 +190,67 @@ function Singlepage() {
           </div>
         </div>
 
-        {/* Related Products */}
-        {relatedProducts.length > 0 && (
+        {/* You May Also Like */}
+        {allRecommended.length > 0 && (
           <div className="mt-12">
-            <h2 className="text-xl font-bold text-gray-800 mb-1">Related Products</h2>
-            <p className="text-sm text-gray-500 mb-6 capitalize">{singleProduct.category}</p>
+            <div className="flex items-center gap-2 mb-1">
+              <FaFire className="text-orange-400" size={18} />
+              <h2 className="text-xl font-bold text-gray-800">You May Also Like</h2>
+            </div>
+            <p className="text-sm text-gray-500 mb-6 capitalize">
+              {recommendations.length > 0
+                ? `Top picks from ${singleProduct.category}`
+                : "Trending across all categories"}
+            </p>
+
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {relatedProducts.map((product) => (
-                <Link
-                  to={`/singlepage/${product.id}`}
-                  key={product.id}
-                  className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group flex flex-col"
-                >
-                  <div className="bg-gray-50 h-40 flex items-center justify-center overflow-hidden p-4">
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-3 flex flex-col flex-1">
-                    <p className="text-xs font-semibold text-gray-800 line-clamp-2 mb-2 leading-snug group-hover:text-indigo-600 transition-colors">
-                      {product.title}
-                    </p>
-                    <span className="text-indigo-600 font-bold text-sm mt-auto">
-                      ${product.price.toFixed(2)}
-                    </span>
-                  </div>
-                </Link>
-              ))}
+              {allRecommended.map((product) => {
+                const inCart = cart.find((c) => c.id === product.id);
+                const isTopPick = !recommendations.find((r) => r.id === product.id);
+                return (
+                  <Link
+                    to={`/singlepage/${product.id}`}
+                    key={product.id}
+                    className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group flex flex-col"
+                  >
+                    {/* Badge */}
+                    {isTopPick && (
+                      <div className="absolute mt-2 ml-2">
+                        <span className="bg-orange-100 text-orange-600 text-xs font-semibold px-2 py-0.5 rounded-full">
+                          Top Pick
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="bg-gray-50 h-40 flex items-center justify-center overflow-hidden p-4">
+                      <img
+                        src={product.image}
+                        alt={product.title}
+                        className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+
+                    <div className="p-3 flex flex-col flex-1">
+                      <p className="text-xs font-semibold text-gray-800 line-clamp-2 mb-1 leading-snug group-hover:text-indigo-600 transition-colors">
+                        {product.title}
+                      </p>
+                      {/* Mini rating */}
+                      <div className="flex items-center gap-1 mb-2">
+                        <FaStar size={10} className="text-yellow-400" />
+                        <span className="text-xs text-gray-500">{product.rating?.rate}</span>
+                      </div>
+                      <div className="flex items-center justify-between mt-auto">
+                        <span className="text-indigo-600 font-bold text-sm">
+                          ${product.price.toFixed(2)}
+                        </span>
+                        {inCart && (
+                          <span className="text-xs text-green-600 font-medium">In cart</span>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         )}

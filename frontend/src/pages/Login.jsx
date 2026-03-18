@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { FaSignInAlt } from "react-icons/fa";
+import { FaSignInAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { reset, login } from "../features/Auth/authSlice";
 import Spinner from "./Spinner";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function Login() {
   const navigate = useNavigate();
@@ -15,14 +17,28 @@ function Login() {
   );
 
   const [formdata, setformdata] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+  const [touched, setTouched] = useState({});
   const { email, password } = formdata;
 
   const onchange = (e) => {
     setformdata((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const onBlur = (e) => setTouched((prev) => ({ ...prev, [e.target.name]: true }));
+
+  const emailError = touched.email && email && !EMAIL_REGEX.test(email);
+
   const onsubmit = (e) => {
     e.preventDefault();
+    if (!EMAIL_REGEX.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    if (!password) {
+      toast.error("Please enter your password");
+      return;
+    }
     dispatch(login({ email, password }));
   };
 
@@ -54,27 +70,43 @@ function Login() {
               Email address
             </label>
             <input
-              type="email"
+              type="text"
               name="email"
               value={email}
               placeholder="you@example.com"
               onChange={onchange}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+              onBlur={onBlur}
+              className={`w-full px-4 py-2.5 border rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 transition ${
+                emailError ? "border-red-400 focus:ring-red-400" : "border-gray-200 focus:ring-indigo-500"
+              }`}
             />
+            {emailError && (
+              <p className="text-red-500 text-xs mt-1">Please enter a valid email address</p>
+            )}
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">
               Password
             </label>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              placeholder="••••••••"
-              onChange={onchange}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={password}
+                placeholder="••••••••"
+                onChange={onchange}
+                onBlur={onBlur}
+                className="w-full px-4 py-2.5 pr-10 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                {showPassword ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
+              </button>
+            </div>
           </div>
 
           <button
