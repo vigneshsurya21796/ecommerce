@@ -91,7 +91,7 @@ function Profile() {
 
   const initials = user?.name
     ? user.name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase()
-    : "?";
+    : null;
 
   const memberSince = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
@@ -109,7 +109,10 @@ function Profile() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-center gap-6">
           {/* Avatar */}
           <div className="w-20 h-20 rounded-2xl bg-indigo-600 flex items-center justify-center flex-shrink-0">
-            <span className="text-2xl font-bold text-white">{initials}</span>
+            {initials
+              ? <span className="text-2xl font-bold text-white">{initials}</span>
+              : <FaUser size={32} className="text-white opacity-80" />
+            }
           </div>
 
           {/* Info */}
