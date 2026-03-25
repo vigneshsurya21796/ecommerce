@@ -5,6 +5,7 @@ import { productslist } from "../../features/Products/Productsslice";
 import FilterComponent from "../../Components/filter";
 import { FaHeart, FaStar, FaRegStar, FaPlus, FaSearch } from "react-icons/fa";
 import { addToCart } from "../../features/Cart/cartSlice";
+import { toggleWishlist } from "../../features/Wishlist/wishlistSlice";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ function Dashboard() {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("q") || "";
 
+  const wishlistItems = useSelector((state) => state.wishlist.items);
   const [filteredProducts, setFilteredProducts] = React.useState([]);
   const [sortBy, setSortBy] = React.useState("default");
 
@@ -192,9 +194,18 @@ function Dashboard() {
                     className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col relative"
                   >
                     {/* Wishlist */}
-                    <button className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white shadow-md hover:bg-red-50 transition-colors">
-                      <FaHeart size={15} className="text-gray-300" />
-                    </button>
+                    {(() => {
+                      const isWishlisted = wishlistItems.find((w) => w.id === product.id);
+                      return (
+                        <button
+                          onClick={(e) => { e.preventDefault(); dispatch(toggleWishlist(product)); }}
+                          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white shadow-md hover:bg-red-50 transition-colors"
+                          title={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                        >
+                          <FaHeart size={15} className={isWishlisted ? "text-red-500" : "text-gray-300"} />
+                        </button>
+                      );
+                    })()}
 
                     {/* Image */}
                     <Link

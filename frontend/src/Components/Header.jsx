@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaSignInAlt, FaUser, FaClipboardList, FaSearch, FaTimes } from "react-icons/fa";
+import { FaSignInAlt, FaUser, FaClipboardList, FaSearch, FaTimes, FaHeart } from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
 import { Link, useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,6 +12,7 @@ function Header() {
   const [searchParams] = useSearchParams();
   const { user } = useSelector((state) => state.auth);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const wishlistCount = useSelector((state) => state.wishlist.items.length);
 
   const [query, setQuery] = useState(searchParams.get("q") || "");
   const inputRef = useRef(null);
@@ -93,6 +94,19 @@ function Header() {
 
         {/* Nav */}
         <nav className="flex items-center gap-2 flex-shrink-0">
+
+          {/* Wishlist */}
+          <Link
+            to="/wishlist"
+            className="relative p-2 text-gray-500 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50"
+          >
+            <FaHeart size={20} />
+            {wishlistCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold leading-none">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
 
           {/* Cart */}
           <Link

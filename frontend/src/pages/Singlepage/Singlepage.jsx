@@ -7,8 +7,9 @@ import {
   decrementQuantity,
   incrementQuantity,
 } from "../../features/Cart/cartSlice";
-import { FaStar, FaRegStar, FaShoppingCart, FaArrowLeft, FaFire } from "react-icons/fa";
+import { FaStar, FaRegStar, FaShoppingCart, FaArrowLeft, FaFire, FaHeart } from "react-icons/fa";
 import ImageGallery from "../../Components/ImageGallery/ImageGallery";
+import { toggleWishlist } from "../../features/Wishlist/wishlistSlice";
 
 function Singlepage() {
   const [singleProduct, setSingleProduct] = useState(null);
@@ -16,6 +17,7 @@ function Singlepage() {
   const dispatch = useDispatch();
   const { products, isLoading } = useSelector((state) => state.products);
   const cart = useSelector((state) => state.cart.items);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
   const { id } = useParams();
 
   const productadd = (product) => {
@@ -120,10 +122,23 @@ function Singlepage() {
             {/* Right: Details */}
             <div className="lg:w-1/2 p-8 flex flex-col justify-between">
               <div>
-                {/* Category badge */}
-                <span className="inline-block bg-indigo-50 text-indigo-700 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
-                  {singleProduct.category}
-                </span>
+                {/* Category badge + Wishlist */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="inline-block bg-indigo-50 text-indigo-700 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full">
+                    {singleProduct.category}
+                  </span>
+                  <button
+                    onClick={() => dispatch(toggleWishlist(singleProduct))}
+                    className={`flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full border transition-colors ${
+                      wishlistItems.find((w) => w.id === singleProduct.id)
+                        ? "bg-red-50 border-red-200 text-red-500"
+                        : "bg-gray-50 border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-200 hover:text-red-500"
+                    }`}
+                  >
+                    <FaHeart size={13} />
+                    {wishlistItems.find((w) => w.id === singleProduct.id) ? "Wishlisted" : "Wishlist"}
+                  </button>
+                </div>
 
                 {/* Title */}
                 <h1 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">

@@ -7,6 +7,7 @@ import Singlepage from "./pages/Singlepage/Singlepage";
 import Addtocart from "./Components/Cart/Addtocart.jsx";
 import Checkout from "./pages/Checkout/Checkout.jsx";
 import OrderHistory from "./pages/OrderHistory/OrderHistory.jsx";
+import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/singlepage/:id" element={<Singlepage />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/wishlist" element={<Wishlist />} />
             <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>
         </div>
