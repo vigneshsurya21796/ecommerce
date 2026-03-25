@@ -43,7 +43,7 @@ function Login() {
   };
 
   useEffect(() => {
-    if (isError) toast.error("Invalid credentials");
+    if (isError) toast.error(message || "Login failed");
     if (isSuccess && user) navigate("/");
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
