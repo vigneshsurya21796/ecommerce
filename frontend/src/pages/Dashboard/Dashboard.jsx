@@ -126,22 +126,7 @@ function Dashboard() {
 
         {/* Header row */}
         <div className="flex justify-between items-center mb-4">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">
-              {searchQuery ? (
-                <>
-                  Results for{" "}
-                  <span className="text-indigo-600">&ldquo;{searchQuery}&rdquo;</span>
-                </>
-              ) : (
-                "Products"
-              )}
-            </h1>
-            <p className="text-sm text-gray-500 mt-0.5">
-              {filteredProducts.length}{" "}
-              {filteredProducts.length === 1 ? "product" : "products"} found
-            </p>
-          </div>
+          <h1 className="text-2xl font-bold text-gray-800">Products</h1>
 
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">Sort By</span>
@@ -226,10 +211,7 @@ function Dashboard() {
                       </div>
                       <Link to={`/product/${product.id}`}>
                         <h3 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2 hover:text-indigo-600 transition-colors leading-snug">
-                          {/* Highlight matching text */}
-                          {searchQuery
-                            ? highlightMatch(product.title, searchQuery)
-                            : product.title}
+                          {product.title}
                         </h3>
                       </Link>
 
@@ -264,19 +246,5 @@ function Dashboard() {
   );
 }
 
-// Highlight the matching part of the title
-function highlightMatch(text, query) {
-  const idx = text.toLowerCase().indexOf(query.toLowerCase());
-  if (idx === -1) return text;
-  return (
-    <>
-      {text.slice(0, idx)}
-      <mark className="bg-yellow-100 text-yellow-800 rounded px-0.5">
-        {text.slice(idx, idx + query.length)}
-      </mark>
-      {text.slice(idx + query.length)}
-    </>
-  );
-}
 
 export default Dashboard;
