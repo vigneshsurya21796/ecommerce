@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
@@ -185,13 +185,16 @@ function Checkout() {
   const navigate = useNavigate();
 
   const totalAmount = totalPrice + SHIPPING_FEE;
+  const redirected = useRef(false);
 
   useEffect(() => {
+    if (redirected.current) return;
     if (!user) {
+      redirected.current = true;
       toast.error("Please login to checkout");
       navigate("/login");
-    }
-    if (cartItems.length === 0) {
+    } else if (cartItems.length === 0) {
+      redirected.current = true;
       navigate("/");
     }
   }, [user, cartItems, navigate]);
