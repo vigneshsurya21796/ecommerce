@@ -224,7 +224,7 @@ function Singlepage() {
                 const isTopPick = !recommendations.find((r) => r.id === product.id);
                 return (
                   <Link
-                    to={`/singlepage/${product.id}`}
+                    to={`/product/${product.id}`}
                     key={product.id}
                     className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group flex flex-col"
                   >

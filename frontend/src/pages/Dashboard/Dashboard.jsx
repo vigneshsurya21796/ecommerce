@@ -209,7 +209,7 @@ function Dashboard() {
 
                     {/* Image */}
                     <Link
-                      to={`/singlepage/${product.id}`}
+                      to={`/product/${product.id}`}
                       className="bg-gray-50 h-52 flex items-center justify-center overflow-hidden"
                     >
                       <img
@@ -224,7 +224,7 @@ function Dashboard() {
                       <div className="text-xs text-indigo-600 font-semibold uppercase tracking-wider mb-1">
                         {product.category}
                       </div>
-                      <Link to={`/singlepage/${product.id}`}>
+                      <Link to={`/product/${product.id}`}>
                         <h3 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2 hover:text-indigo-600 transition-colors leading-snug">
                           {/* Highlight matching text */}
                           {searchQuery

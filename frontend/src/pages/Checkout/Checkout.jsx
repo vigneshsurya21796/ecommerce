@@ -189,7 +189,7 @@ function Checkout() {
   useEffect(() => {
     if (!user) {
       toast.error("Please login to checkout");
-      navigate("/Login");
+      navigate("/login");
     }
     if (cartItems.length === 0) {
       navigate("/");

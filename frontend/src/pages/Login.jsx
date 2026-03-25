@@ -120,7 +120,7 @@ function Login() {
         <p className="text-center text-sm text-gray-500 mt-6">
           Don&apos;t have an account?{" "}
           <Link
-            to="/Register"
+            to="/register"
             className="text-indigo-600 hover:text-indigo-800 font-semibold"
           >
             Create one

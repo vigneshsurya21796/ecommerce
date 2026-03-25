@@ -26,7 +26,7 @@ function OrderHistory() {
   useEffect(() => {
     if (!user) {
       toast.error("Please login to view orders");
-      navigate("/Login");
+      navigate("/login");
       return;
     }
     dispatch(getMyOrders());

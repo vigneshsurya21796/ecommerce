@@ -82,7 +82,7 @@ const Addtocart = () => {
               >
                 {/* Image + Name */}
                 <div className="col-span-12 md:col-span-5 flex items-center gap-4">
-                  <Link to={`/singlepage/${item.id}`} className="flex-shrink-0">
+                  <Link to={`/product/${item.id}`} className="flex-shrink-0">
                     <div className="w-16 h-16 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-center overflow-hidden">
                       <img
                         src={item.image}
@@ -92,7 +92,7 @@ const Addtocart = () => {
                     </div>
                   </Link>
                   <div className="min-w-0">
-                    <Link to={`/singlepage/${item.id}`}>
+                    <Link to={`/product/${item.id}`}>
                       <p className="text-sm font-semibold text-gray-800 line-clamp-2 hover:text-indigo-600 transition-colors leading-snug">
                         {item.name}
                       </p>

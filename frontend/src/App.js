@@ -19,10 +19,10 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Addtocart" element={<Addtocart />} />
-            <Route path="/Register" element={<Register />} />
-            <Route path="/singlepage/:id" element={<Singlepage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/cart" element={<Addtocart />} />
+            <Route path="/product/:id" element={<Singlepage />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/orders" element={<OrderHistory />} />
             <Route path="/wishlist" element={<Wishlist />} />

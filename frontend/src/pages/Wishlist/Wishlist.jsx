@@ -78,8 +78,8 @@ function Wishlist() {
                 {/* Remove from wishlist */}
                 <div className="relative">
                   <Link
-                    to={`/singlepage/${item.id}`}
-                    className="bg-gray-50 h-52 flex items-center justify-center overflow-hidden block"
+                    to={`/product/${item.id}`}
+                    className="bg-gray-50 h-52 flex items-center justify-center overflow-hidden"
                   >
                     <img
                       src={item.image}
@@ -101,7 +101,7 @@ function Wishlist() {
                   <p className="text-xs text-indigo-600 font-semibold uppercase tracking-wider mb-1">
                     {item.category}
                   </p>
-                  <Link to={`/singlepage/${item.id}`}>
+                  <Link to={`/product/${item.id}`}>
                     <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 mb-3 hover:text-indigo-600 transition-colors leading-snug">
                       {item.title}
                     </h3>

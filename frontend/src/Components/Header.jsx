@@ -17,34 +17,34 @@ function Header() {
   const [query, setQuery] = useState(searchParams.get("q") || "");
   const inputRef = useRef(null);
 
-  // Keep input in sync if user navigates back/forward
+  // Keep input in sync when user navigates back/forward
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
   }, [searchParams]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const trimmed = query.trim();
-    if (trimmed) {
-      navigate(`/?q=${encodeURIComponent(trimmed)}`);
+  // Auto-search on every keystroke
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    if (value.trim()) {
+      navigate(`/?q=${encodeURIComponent(value.trim())}`, { replace: true });
     } else {
-      navigate("/");
+      navigate("/", { replace: true });
     }
   };
 
   const clearSearch = () => {
     setQuery("");
-    navigate("/");
+    navigate("/", { replace: true });
     inputRef.current?.focus();
   };
 
   const Logout = () => {
     localStorage.removeItem("user");
     dispatch(logout());
-    navigate("/Login");
+    navigate("/login");
   };
 
-  // Only show search bar on the dashboard page
   const showSearch = location.pathname === "/";
 
   return (
@@ -57,22 +57,16 @@ function Header() {
           <span className="text-gray-900">cart</span>
         </Link>
 
-        {/* Search Bar */}
+        {/* Search Bar — auto-search on every keystroke */}
         {showSearch && (
-          <form
-            onSubmit={handleSearch}
-            className="flex-1 max-w-xl mx-auto"
-          >
+          <div className="flex-1 max-w-xl mx-auto">
             <div className="relative flex items-center">
-              <FaSearch
-                size={14}
-                className="absolute left-3.5 text-gray-400 pointer-events-none"
-              />
+              <FaSearch size={14} className="absolute left-3.5 text-gray-400 pointer-events-none" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={handleSearchChange}
                 placeholder="Search products..."
                 className="w-full pl-9 pr-9 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition"
               />
@@ -86,10 +80,9 @@ function Header() {
                 </button>
               )}
             </div>
-          </form>
+          </div>
         )}
 
-        {/* Spacer when search is hidden */}
         {!showSearch && <div className="flex-1" />}
 
         {/* Nav */}
@@ -110,7 +103,7 @@ function Header() {
 
           {/* Cart */}
           <Link
-            to="/Addtocart"
+            to="/cart"
             className="relative p-2 text-gray-500 hover:text-indigo-600 transition-colors rounded-lg hover:bg-indigo-50"
           >
             <TiShoppingCart size={24} />
@@ -121,7 +114,7 @@ function Header() {
             )}
           </Link>
 
-          {/* My Orders (logged in only) */}
+          {/* My Orders */}
           {user && (
             <Link
               to="/orders"
@@ -132,10 +125,10 @@ function Header() {
             </Link>
           )}
 
-          {/* Register (logged out only) */}
+          {/* Register */}
           {!user && (
             <Link
-              to="/Register"
+              to="/register"
               className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
             >
               <FaUser size={13} />
@@ -154,7 +147,7 @@ function Header() {
             </button>
           ) : (
             <Link
-              to="/Login"
+              to="/login"
               className="flex items-center gap-1.5 text-sm text-white bg-indigo-600 hover:bg-indigo-700 font-medium px-4 py-2 rounded-lg transition-colors shadow-sm"
             >
               <FaSignInAlt size={13} />
