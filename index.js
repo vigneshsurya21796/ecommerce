@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5000;
 const userrouter = require("./BACKEND/routes/userroutes");
 const orderrouter = require("./BACKEND/routes/orderroutes");
 const paymentrouter = require("./BACKEND/routes/paymentroutes");
+const adminrouter = require("./BACKEND/routes/adminroutes");
 const { errorhandler } = require("./BACKEND/middleware/errorhandler");
 
 const allowedOrigins = process.env.CORS_ORIGIN
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/users", userrouter);
 app.use("/orders", orderrouter);
 app.use("/payment", paymentrouter);
+app.use("/admin", adminrouter);
 const connectDB = require("./BACKEND/DB/db");
 const { urlencoded } = require("express");
 connectDB();

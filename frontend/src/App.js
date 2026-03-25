@@ -9,6 +9,11 @@ import Checkout from "./pages/Checkout/Checkout.jsx";
 import OrderHistory from "./pages/OrderHistory/OrderHistory.jsx";
 import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
+import AdminLayout from "./pages/Admin/AdminLayout.jsx";
+import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
+import AdminOrders from "./pages/Admin/AdminOrders.jsx";
+import AdminProducts from "./pages/Admin/AdminProducts.jsx";
+import AdminUsers from "./pages/Admin/AdminUsers.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,21 +21,34 @@ function App() {
   return (
     <>
       <Router>
-        <div className="container">
-          <Header />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/cart" element={<Addtocart />} />
-            <Route path="/product/:id" element={<Singlepage />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/orders" element={<OrderHistory />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="*" element={<h1>Not Found</h1>} />
-          </Routes>
-        </div>
+        <Routes>
+          {/* Admin routes — no Header */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="users" element={<AdminUsers />} />
+          </Route>
+
+          {/* Store routes — with Header */}
+          <Route path="/*" element={
+            <div className="container">
+              <Header />
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/cart" element={<Addtocart />} />
+                <Route path="/product/:id" element={<Singlepage />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/orders" element={<OrderHistory />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="*" element={<h1>Not Found</h1>} />
+              </Routes>
+            </div>
+          } />
+        </Routes>
       </Router>
       <ToastContainer />
     </>

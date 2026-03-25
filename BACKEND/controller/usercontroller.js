@@ -69,6 +69,7 @@ const registeruser = asyncHandler(async (req, res) => {
     _id: user.id,
     name: user.name,
     email: user.email,
+    isAdmin: user.isAdmin,
     token: accessToken,
   });
 });
@@ -88,7 +89,7 @@ const loginuser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
-      Loggedin: true,
+      isAdmin: user.isAdmin,
       token: accessToken,
     });
   } else {
