@@ -63,10 +63,7 @@ function CheckoutForm({ totalAmount }) {
       return;
     }
 
-    if (!stripe || !elements || !clientSecret) {
-      toast.error("Payment not ready. Please wait.");
-      return;
-    }
+    if (!stripe || !elements || !clientSecret) return;
 
     setProcessing(true);
 
@@ -169,10 +166,14 @@ function CheckoutForm({ totalAmount }) {
 
       <button
         type="submit"
-        disabled={!stripe || processing || isLoading}
-        className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white font-semibold py-3 rounded-lg transition-colors"
+        disabled={!stripe || !clientSecret || processing || isLoading}
+        className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
       >
-        {processing || isLoading ? "Processing..." : `Pay ₹${totalAmount.toFixed(2)}`}
+        {processing || isLoading
+          ? "Processing..."
+          : !clientSecret
+          ? "Preparing payment..."
+          : `Pay ₹${totalAmount.toFixed(2)}`}
       </button>
     </form>
   );
