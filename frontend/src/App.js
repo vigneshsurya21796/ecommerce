@@ -8,6 +8,7 @@ import Addtocart from "./Components/Cart/Addtocart.jsx";
 import Checkout from "./pages/Checkout/Checkout.jsx";
 import OrderHistory from "./pages/OrderHistory/OrderHistory.jsx";
 import Wishlist from "./pages/Wishlist/Wishlist.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/orders" element={<OrderHistory />} />
             <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>
         </div>

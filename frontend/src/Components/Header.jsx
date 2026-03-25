@@ -114,15 +114,24 @@ function Header() {
             )}
           </Link>
 
-          {/* My Orders */}
+          {/* My Orders + Profile */}
           {user && (
-            <Link
-              to="/orders"
-              className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
-            >
-              <FaClipboardList size={13} />
-              My Orders
-            </Link>
+            <>
+              <Link
+                to="/orders"
+                className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
+              >
+                <FaClipboardList size={13} />
+                My Orders
+              </Link>
+              <Link
+                to="/profile"
+                className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors text-white text-sm font-bold"
+                title={`${user.name} — Profile`}
+              >
+                {user.name?.charAt(0).toUpperCase()}
+              </Link>
+            </>
           )}
 
           {/* Register */}

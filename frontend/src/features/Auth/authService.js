@@ -24,7 +24,7 @@ axiosAuth.interceptors.response.use(
         return axiosAuth(original);
       } catch {
         localStorage.removeItem("user");
-        window.location.href = "/Login";
+        window.location.href = "/login";
       }
     }
     return Promise.reject(error);
@@ -52,5 +52,18 @@ const logout = async () => {
   localStorage.removeItem("user");
 };
 
-const authService = { register, login, logout };
+const updateProfile = async (data, token) => {
+  const response = await axiosAuth.put(`${API}/profile`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true,
+  });
+  if (response.data) {
+    const stored = JSON.parse(localStorage.getItem("user")) || {};
+    const updated = { ...stored, name: response.data.name, email: response.data.email };
+    localStorage.setItem("user", JSON.stringify(updated));
+  }
+  return response.data;
+};
+
+const authService = { register, login, logout, updateProfile };
 export default authService;

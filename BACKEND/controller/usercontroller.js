@@ -143,4 +143,61 @@ const fetchuser = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
 });
 
-module.exports = { registeruser, loginuser, refreshtoken, logoutuser, fetchuser };
+const updateProfile = asyncHandler(async (req, res) => {
+  const { name, email, currentPassword, newPassword } = req.body;
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // Update name
+  if (name) user.name = name.trim();
+
+  // Update email
+  if (email && email !== user.email) {
+    if (!EMAIL_REGEX.test(email)) {
+      res.status(400);
+      throw new Error("Invalid email address");
+    }
+    const emailTaken = await User.findOne({ email });
+    if (emailTaken) {
+      res.status(400);
+      throw new Error("Email already in use");
+    }
+    user.email = email;
+  }
+
+  // Change password
+  if (newPassword) {
+    if (!currentPassword) {
+      res.status(400);
+      throw new Error("Current password is required");
+    }
+    const match = await bcrypt.compare(currentPassword, user.password);
+    if (!match) {
+      res.status(400);
+      throw new Error("Current password is incorrect");
+    }
+    for (const rule of PASSWORD_RULES) {
+      if (!rule.test(newPassword)) {
+        res.status(400);
+        throw new Error(rule.msg);
+      }
+    }
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+  }
+
+  await user.save();
+
+  res.json({
+    _id: user.id,
+    name: user.name,
+    email: user.email,
+    token: req.headers.authorization.split(" ")[1],
+  });
+});
+
+module.exports = { registeruser, loginuser, refreshtoken, logoutuser, fetchuser, updateProfile };
