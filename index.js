@@ -5,7 +5,6 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const colors = require("colors");
 const PORT = process.env.PORT || 5000;
-const router = require("./BACKEND/routes/router");
 const userrouter = require("./BACKEND/routes/userroutes");
 const orderrouter = require("./BACKEND/routes/orderroutes");
 const paymentrouter = require("./BACKEND/routes/paymentroutes");
@@ -25,7 +24,6 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/goals", router);
 app.use("/users", userrouter);
 app.use("/orders", orderrouter);
 app.use("/payment", paymentrouter);
