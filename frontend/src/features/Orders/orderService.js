@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosAuth } from "../Auth/authService";
 
 const API_URL = "/orders";
 const PAYMENT_URL = "/payment";
@@ -8,22 +8,22 @@ const getAuthHeader = (token) => ({
 });
 
 const createOrder = async (orderData, token) => {
-  const res = await axios.post(API_URL, orderData, getAuthHeader(token));
+  const res = await axiosAuth.post(API_URL, orderData, getAuthHeader(token));
   return res.data;
 };
 
 const getMyOrders = async (token) => {
-  const res = await axios.get(API_URL, getAuthHeader(token));
+  const res = await axiosAuth.get(API_URL, getAuthHeader(token));
   return res.data;
 };
 
 const getOrderById = async (id, token) => {
-  const res = await axios.get(`${API_URL}/${id}`, getAuthHeader(token));
+  const res = await axiosAuth.get(`${API_URL}/${id}`, getAuthHeader(token));
   return res.data;
 };
 
 const createPaymentIntent = async (amount, token) => {
-  const res = await axios.post(
+  const res = await axiosAuth.post(
     `${PAYMENT_URL}/create-intent`,
     { amount },
     getAuthHeader(token)
