@@ -88,7 +88,7 @@ function Dashboard() {
         sorted.sort((a, b) => b.price - a.price);
         break;
       case "rating":
-        sorted.sort((a, b) => b.rating.rate - a.rating.rate);
+        sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         break;
       case "name":
         sorted.sort((a, b) => a.title.localeCompare(b.title));
@@ -102,7 +102,7 @@ function Dashboard() {
   const handleAddToCart = (e, product) => {
     e.preventDefault();
     dispatch(addToCart({
-      id: product.id,
+      id: product._id,
       name: product.title,
       image: product.image,
       price: product.price,
@@ -175,15 +175,15 @@ function Dashboard() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredProducts.map((product, idx) => (
                   <div
-                    key={product.id || idx}
+                    key={product._id || idx}
                     className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col relative"
                   >
                     {/* Wishlist */}
                     {(() => {
-                      const isWishlisted = wishlistItems.find((w) => w.id === product.id);
+                      const isWishlisted = wishlistItems.find((w) => w.id === product._id);
                       return (
                         <button
-                          onClick={(e) => { e.preventDefault(); dispatch(toggleWishlist(product)); }}
+                          onClick={(e) => { e.preventDefault(); dispatch(toggleWishlist({ ...product, id: product._id })); }}
                           className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white shadow-md hover:bg-red-50 transition-colors"
                           title={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
                         >
@@ -194,7 +194,7 @@ function Dashboard() {
 
                     {/* Image */}
                     <Link
-                      to={`/product/${product.id}`}
+                      to={`/product/${product._id}`}
                       className="bg-gray-50 h-52 flex items-center justify-center overflow-hidden"
                     >
                       <img
@@ -209,22 +209,22 @@ function Dashboard() {
                       <div className="text-xs text-indigo-600 font-semibold uppercase tracking-wider mb-1">
                         {product.category}
                       </div>
-                      <Link to={`/product/${product.id}`}>
+                      <Link to={`/product/${product._id}`}>
                         <h3 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2 hover:text-indigo-600 transition-colors leading-snug">
                           {product.title}
                         </h3>
                       </Link>
 
                       <div className="flex items-center gap-1 mb-3">
-                        {renderStars(product.rating?.rate ?? 0)}
+                        {renderStars(product.rating ?? 0)}
                         <span className="text-xs text-gray-400 ml-1">
-                          ({product.rating?.count ?? 0})
+                          {product.rating ? `${product.rating}/5` : "No rating"}
                         </span>
                       </div>
 
                       <div className="mt-auto">
                         <span className="text-xl font-bold text-gray-900 block mb-3">
-                          ${product.price.toFixed(2)}
+                          ₹{product.price.toFixed(2)}
                         </span>
                         <button
                           onClick={(e) => handleAddToCart(e, product)}

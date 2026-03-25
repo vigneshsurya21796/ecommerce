@@ -6,19 +6,20 @@ function FilterComponent({ onFilterChange }) {
 
   const categories = [
     "All Categories",
-    "Electronics",
-    "Jewelery",
-    "Men's Clothing",
-    "Women's Clothing",
+    "electronics",
+    "jewelery",
+    "men's clothing",
+    "women's clothing",
+    "other",
   ];
 
-  // Predefined price ranges like Amazon
+  // Predefined price ranges
   const priceRanges = [
-    { label: "All", min: 0, max: 1000 },
-    { label: "$0 – $100", min: 0, max: 100 },
-    { label: "$100 – $200", min: 100, max: 200 },
-    { label: "$200 – $500", min: 200, max: 500 },
-    { label: "$500 – $1000", min: 500, max: 1000 },
+    { label: "All", min: 0, max: 1000000 },
+    { label: "₹0 – ₹500", min: 0, max: 500 },
+    { label: "₹500 – ₹2000", min: 500, max: 2000 },
+    { label: "₹2000 – ₹10000", min: 2000, max: 10000 },
+    { label: "₹10000+", min: 10000, max: 1000000 },
   ];
 
   useEffect(() => {

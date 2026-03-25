@@ -23,7 +23,7 @@ function Singlepage() {
   const productadd = (product) => {
     dispatch(
       addToCart({
-        id: product.id,
+        id: product._id,
         name: product.title,
         image: product.image,
         price: product.price,
@@ -41,7 +41,7 @@ function Singlepage() {
 
   useEffect(() => {
     if (products && products.length > 0) {
-      const product = products.find((p) => p.id.toString() === id);
+      const product = products.find((p) => p._id.toString() === id);
       setSingleProduct(product || null);
     }
   }, [products, id]);
@@ -74,12 +74,12 @@ function Singlepage() {
     );
   }
 
-  const cartItem = cart.find((item) => item.id === singleProduct.id);
+  const cartItem = cart.find((item) => item.id === singleProduct._id);
 
   // Same category, sorted by rating desc, exclude current product
   const sameCategory = products
-    .filter((p) => p.category === singleProduct.category && p.id !== singleProduct.id)
-    .sort((a, b) => (b.rating?.rate ?? 0) - (a.rating?.rate ?? 0));
+    .filter((p) => p.category === singleProduct.category && p._id !== singleProduct._id)
+    .sort((a, b) => (b.rating || 0) - (a.rating || 0));
 
   // Recommendations: up to 4 from same category
   const recommendations = sameCategory.slice(0, 4);
@@ -87,8 +87,8 @@ function Singlepage() {
   // Top picks fallback: highest rated across all categories (if recommendations < 4)
   const topPicks = recommendations.length < 4
     ? products
-        .filter((p) => p.id !== singleProduct.id && !recommendations.find((r) => r.id === p.id))
-        .sort((a, b) => (b.rating?.rate ?? 0) - (a.rating?.rate ?? 0))
+        .filter((p) => p._id !== singleProduct._id && !recommendations.find((r) => r._id === p._id))
+        .sort((a, b) => (b.rating || 0) - (a.rating || 0))
         .slice(0, 4 - recommendations.length)
     : [];
 
@@ -128,15 +128,15 @@ function Singlepage() {
                     {singleProduct.category}
                   </span>
                   <button
-                    onClick={() => dispatch(toggleWishlist(singleProduct))}
+                    onClick={() => dispatch(toggleWishlist({ ...singleProduct, id: singleProduct._id }))}
                     className={`flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full border transition-colors ${
-                      wishlistItems.find((w) => w.id === singleProduct.id)
+                      wishlistItems.find((w) => w.id === singleProduct._id)
                         ? "bg-red-50 border-red-200 text-red-500"
                         : "bg-gray-50 border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-200 hover:text-red-500"
                     }`}
                   >
                     <FaHeart size={13} />
-                    {wishlistItems.find((w) => w.id === singleProduct.id) ? "Wishlisted" : "Wishlist"}
+                    {wishlistItems.find((w) => w.id === singleProduct._id) ? "Wishlisted" : "Wishlist"}
                   </button>
                 </div>
 
@@ -148,17 +148,17 @@ function Singlepage() {
                 {/* Rating */}
                 <div className="flex items-center gap-2 mb-5">
                   <div className="flex items-center gap-0.5">
-                    {renderStars(singleProduct.rating?.rate ?? 0)}
+                    {renderStars(singleProduct.rating ?? 0)}
                   </div>
                   <span className="text-sm text-gray-500">
-                    {singleProduct.rating?.rate} · {singleProduct.rating?.count} reviews
+                    {singleProduct.rating ? `${singleProduct.rating}/5` : "No rating"}
                   </span>
                 </div>
 
                 {/* Price */}
                 <div className="mb-5">
                   <span className="text-3xl font-bold text-indigo-600">
-                    ${singleProduct.price.toFixed(2)}
+                    ₹{singleProduct.price.toFixed(2)}
                   </span>
                 </div>
 
@@ -220,12 +220,12 @@ function Singlepage() {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {allRecommended.map((product) => {
-                const inCart = cart.find((c) => c.id === product.id);
-                const isTopPick = !recommendations.find((r) => r.id === product.id);
+                const inCart = cart.find((c) => c.id === product._id);
+                const isTopPick = !recommendations.find((r) => r._id === product._id);
                 return (
                   <Link
-                    to={`/product/${product.id}`}
-                    key={product.id}
+                    to={`/product/${product._id}`}
+                    key={product._id}
                     className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group flex flex-col"
                   >
                     {/* Badge */}
@@ -252,11 +252,11 @@ function Singlepage() {
                       {/* Mini rating */}
                       <div className="flex items-center gap-1 mb-2">
                         <FaStar size={10} className="text-yellow-400" />
-                        <span className="text-xs text-gray-500">{product.rating?.rate}</span>
+                        <span className="text-xs text-gray-500">{product.rating ?? "—"}</span>
                       </div>
                       <div className="flex items-center justify-between mt-auto">
                         <span className="text-indigo-600 font-bold text-sm">
-                          ${product.price.toFixed(2)}
+                          ₹{product.price.toFixed(2)}
                         </span>
                         {inCart && (
                           <span className="text-xs text-green-600 font-medium">In cart</span>
