@@ -1,187 +1,270 @@
 import React, { useCallback, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productslist } from "../../features/Products/Productsslice";
 import FilterComponent from "../../Components/filter";
-import { FaHeart, FaStar, FaRegStar, FaPlus } from "react-icons/fa";
+import { FaHeart, FaStar, FaRegStar, FaPlus, FaSearch } from "react-icons/fa";
+import { addToCart } from "../../features/Cart/cartSlice";
 
 function Dashboard() {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("q") || "";
 
-  const [filteredProducts, setFilteredProducts] = React.useState(products);
+  const [filteredProducts, setFilteredProducts] = React.useState([]);
   const [sortBy, setSortBy] = React.useState("default");
 
   useEffect(() => {
     dispatch(productslist());
   }, [dispatch]);
 
+  // Re-apply filters whenever products load or search query changes
   useEffect(() => {
-    setFilteredProducts(products);
-  }, [products]);
+    applySearch(products, searchQuery);
+  }, [products, searchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ✅ Filtering
+  const applySearch = (list, query) => {
+    if (!query) {
+      setFilteredProducts(list);
+      return;
+    }
+    const lower = query.toLowerCase();
+    setFilteredProducts(
+      list.filter(
+        (p) =>
+          p.title.toLowerCase().includes(lower) ||
+          p.category.toLowerCase().includes(lower)
+      )
+    );
+  };
+
+  // Filtering (category + price) — works on top of search result
   const handleFilterChange = useCallback(
-      (filters) => {
-        let updatedProducts = [...products];
+    (filters) => {
+      let base = [...products];
 
-        if (filters.category !== "All Categories") {
-          updatedProducts = updatedProducts.filter(
-              (p) =>
-                  p.category.toLowerCase().includes(filters.category.toLowerCase()) ||
-                  filters.category.toLowerCase().includes(p.category.toLowerCase())
-          );
-        }
-
-        updatedProducts = updatedProducts.filter(
-            (p) =>
-                p.price >= parseFloat(filters.minPrice) &&
-                p.price <= parseFloat(filters.maxPrice)
+      // Apply search first
+      if (searchQuery) {
+        const lower = searchQuery.toLowerCase();
+        base = base.filter(
+          (p) =>
+            p.title.toLowerCase().includes(lower) ||
+            p.category.toLowerCase().includes(lower)
         );
-        setFilteredProducts(updatedProducts);
-      },
-      [products]
+      }
+
+      if (filters.category !== "All Categories") {
+        base = base.filter(
+          (p) =>
+            p.category.toLowerCase().includes(filters.category.toLowerCase()) ||
+            filters.category.toLowerCase().includes(p.category.toLowerCase())
+        );
+      }
+
+      base = base.filter(
+        (p) =>
+          p.price >= parseFloat(filters.minPrice) &&
+          p.price <= parseFloat(filters.maxPrice)
+      );
+
+      setFilteredProducts(base);
+    },
+    [products, searchQuery]
   );
 
-  // ✅ Sorting
+  // Sorting
   const handleSortChange = (e) => {
     const sortValue = e.target.value;
     setSortBy(sortValue);
-    let sortedProducts = [...filteredProducts];
-
+    let sorted = [...filteredProducts];
     switch (sortValue) {
       case "price-low-high":
-        sortedProducts.sort((a, b) => a.price - b.price);
+        sorted.sort((a, b) => a.price - b.price);
         break;
       case "price-high-low":
-        sortedProducts.sort((a, b) => b.price - a.price);
+        sorted.sort((a, b) => b.price - a.price);
         break;
       case "rating":
-        sortedProducts.sort((a, b) => b.rating.rate - a.rating.rate);
+        sorted.sort((a, b) => b.rating.rate - a.rating.rate);
         break;
       case "name":
-        sortedProducts.sort((a, b) => a.title.localeCompare(b.title));
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
         break;
       default:
         break;
     }
-    setFilteredProducts(sortedProducts);
+    setFilteredProducts(sorted);
   };
 
-  // ✅ Utility to render stars
-  const renderStars = (rating) => {
-    return (
-        <div className="flex items-center">
-          {[...Array(5)].map((_, i) =>
-              i < Math.floor(rating)
-                  ? <FaStar key={i} size={12} className="text-yellow-400" />
-                  : <FaRegStar key={i} size={12} className="text-gray-300" />
-          )}
-        </div>
-    );
+  const handleAddToCart = (e, product) => {
+    e.preventDefault();
+    dispatch(addToCart({
+      id: product.id,
+      name: product.title,
+      image: product.image,
+      price: product.price,
+      quantity: 1,
+    }));
   };
+
+  const renderStars = (rating) => (
+    <div className="flex items-center">
+      {[...Array(5)].map((_, i) =>
+        i < Math.floor(rating)
+          ? <FaStar key={i} size={12} className="text-yellow-400" />
+          : <FaRegStar key={i} size={12} className="text-gray-300" />
+      )}
+    </div>
+  );
 
   return (
-      <div className="min-h-screen bg-slate-50">
-        <div className="container mx-auto px-4 py-6">
-          {/* Header Section */}
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">Products</h1>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Sort By</span>
-              <select
-                  value={sortBy}
-                  onChange={handleSortChange}
-                  className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="default">Default</option>
-                <option value="price-low-high">Price: Low to High</option>
-                <option value="price-high-low">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
-                <option value="name">Name A-Z</option>
-              </select>
-            </div>
-          </div>
+    <div className="min-h-screen bg-slate-50">
+      <div className="container mx-auto px-4 py-6">
 
-          {/* Products count */}
-          <div className="text-center mb-6">
-            <p className="text-gray-600">
-              Showing 1 - {Math.min(10, filteredProducts.length)} of{" "}
-              {filteredProducts.length} products
+        {/* Header row */}
+        <div className="flex justify-between items-center mb-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-800">
+              {searchQuery ? (
+                <>
+                  Results for{" "}
+                  <span className="text-indigo-600">&ldquo;{searchQuery}&rdquo;</span>
+                </>
+              ) : (
+                "Products"
+              )}
+            </h1>
+            <p className="text-sm text-gray-500 mt-0.5">
+              {filteredProducts.length}{" "}
+              {filteredProducts.length === 1 ? "product" : "products"} found
             </p>
           </div>
 
-          <div className="flex gap-6">
-            {/* Filter Sidebar */}
-            <div className="w-80 flex-shrink-0">
-              <FilterComponent onFilterChange={handleFilterChange} />
-            </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">Sort By</span>
+            <select
+              value={sortBy}
+              onChange={handleSortChange}
+              className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="default">Default</option>
+              <option value="price-low-high">Price: Low to High</option>
+              <option value="price-high-low">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+              <option value="name">Name A-Z</option>
+            </select>
+          </div>
+        </div>
 
-            {/* Products Grid */}
-            <div className="flex-1">
+        <div className="flex gap-6">
+          {/* Filter Sidebar */}
+          <div className="w-80 flex-shrink-0">
+            <FilterComponent onFilterChange={handleFilterChange} />
+          </div>
+
+          {/* Products Grid */}
+          <div className="flex-1">
+            {filteredProducts.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-24 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 rounded-full mb-4">
+                  <FaSearch size={24} className="text-indigo-300" />
+                </div>
+                <h2 className="text-lg font-semibold text-gray-700 mb-1">
+                  No products found
+                </h2>
+                {searchQuery ? (
+                  <p className="text-gray-400 text-sm">
+                    No results for &ldquo;<span className="font-medium">{searchQuery}</span>&rdquo;.
+                    Try a different keyword or clear your filters.
+                  </p>
+                ) : (
+                  <p className="text-gray-400 text-sm">
+                    Try adjusting your filters.
+                  </p>
+                )}
+              </div>
+            ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredProducts.map((product, idx) => (
-                    <div
-                        key={product.id || idx}
-                        className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col relative"
-                    >
-                      {/* Wishlist button */}
-                      <button className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white shadow-md hover:bg-red-50 transition-colors">
-                        <FaHeart size={15} className="text-gray-300" />
-                      </button>
+                  <div
+                    key={product.id || idx}
+                    className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col relative"
+                  >
+                    {/* Wishlist */}
+                    <button className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white shadow-md hover:bg-red-50 transition-colors">
+                      <FaHeart size={15} className="text-gray-300" />
+                    </button>
 
-                      {/* Image */}
-                      <Link to={`/singlepage/${product.id}`} className="bg-gray-50 h-52 flex items-center justify-center overflow-hidden">
-                        <img
-                            src={product.image}
-                            alt={product.title}
-                            className="max-w-full max-h-full object-contain p-5 group-hover:scale-110 transition-transform duration-300"
-                        />
+                    {/* Image */}
+                    <Link
+                      to={`/singlepage/${product.id}`}
+                      className="bg-gray-50 h-52 flex items-center justify-center overflow-hidden"
+                    >
+                      <img
+                        src={product.image}
+                        alt={product.title}
+                        className="max-w-full max-h-full object-contain p-5 group-hover:scale-110 transition-transform duration-300"
+                      />
+                    </Link>
+
+                    {/* Info */}
+                    <div className="p-4 flex flex-col flex-1">
+                      <div className="text-xs text-indigo-600 font-semibold uppercase tracking-wider mb-1">
+                        {product.category}
+                      </div>
+                      <Link to={`/singlepage/${product.id}`}>
+                        <h3 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2 hover:text-indigo-600 transition-colors leading-snug">
+                          {/* Highlight matching text */}
+                          {searchQuery
+                            ? highlightMatch(product.title, searchQuery)
+                            : product.title}
+                        </h3>
                       </Link>
 
-                      {/* Info */}
-                      <div className="p-4 flex flex-col flex-1">
-                        <div className="text-xs text-indigo-600 font-semibold uppercase tracking-wider mb-1">
-                          {product.category}
-                        </div>
-                        <Link to={`/singlepage/${product.id}`}>
-                          <h3 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2 hover:text-indigo-600 transition-colors leading-snug">
-                            {product.title}
-                          </h3>
-                        </Link>
+                      <div className="flex items-center gap-1 mb-3">
+                        {renderStars(product.rating?.rate ?? 0)}
+                        <span className="text-xs text-gray-400 ml-1">
+                          ({product.rating?.count ?? 0})
+                        </span>
+                      </div>
 
-                        {/* Stars + count */}
-                        <div className="flex items-center gap-1 mb-3">
-                          {renderStars(product.rating?.rate ?? 0)}
-                          <span className="text-xs text-gray-400 ml-1">({product.rating?.count ?? 0})</span>
-                        </div>
-
-                        {/* Price + Button */}
-                        <div className="mt-auto">
-                          <span className="text-xl font-bold text-gray-900 block mb-3">
-                            ${product.price.toFixed(2)}
-                          </span>
-                          <button className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-sm font-medium py-2.5 rounded-lg transition-colors">
-                            <FaPlus size={13} />
-                            Add to Cart
-                          </button>
-                        </div>
+                      <div className="mt-auto">
+                        <span className="text-xl font-bold text-gray-900 block mb-3">
+                          ${product.price.toFixed(2)}
+                        </span>
+                        <button
+                          onClick={(e) => handleAddToCart(e, product)}
+                          className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
+                        >
+                          <FaPlus size={13} />
+                          Add to Cart
+                        </button>
                       </div>
                     </div>
+                  </div>
                 ))}
               </div>
-
-              {filteredProducts.length === 0 && (
-                  <div className="text-center py-12">
-                    <p className="text-gray-500 text-lg">
-                      No products found matching your criteria.
-                    </p>
-                  </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+// Highlight the matching part of the title
+function highlightMatch(text, query) {
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return text;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <mark className="bg-yellow-100 text-yellow-800 rounded px-0.5">
+        {text.slice(idx, idx + query.length)}
+      </mark>
+      {text.slice(idx + query.length)}
+    </>
   );
 }
 

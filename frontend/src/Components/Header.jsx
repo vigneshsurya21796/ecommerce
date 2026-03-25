@@ -1,16 +1,41 @@
-import React from "react";
-import { FaSignInAlt, FaUser, FaClipboardList } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
+import { FaSignInAlt, FaUser, FaClipboardList, FaSearch, FaTimes } from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { logout } from "../features/Auth/authSlice";
 
 function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
   const { user } = useSelector((state) => state.auth);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+
+  const [query, setQuery] = useState(searchParams.get("q") || "");
+  const inputRef = useRef(null);
+
+  // Keep input in sync if user navigates back/forward
+  useEffect(() => {
+    setQuery(searchParams.get("q") || "");
+  }, [searchParams]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const trimmed = query.trim();
+    if (trimmed) {
+      navigate(`/?q=${encodeURIComponent(trimmed)}`);
+    } else {
+      navigate("/");
+    }
+  };
+
+  const clearSearch = () => {
+    setQuery("");
+    navigate("/");
+    inputRef.current?.focus();
+  };
 
   const Logout = () => {
     localStorage.removeItem("user");
@@ -18,18 +43,56 @@ function Header() {
     navigate("/Login");
   };
 
+  // Only show search bar on the dashboard page
+  const showSearch = location.pathname === "/";
+
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center gap-4">
 
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold tracking-tight">
+        <Link to="/" className="text-2xl font-bold tracking-tight flex-shrink-0">
           <span className="text-indigo-600">buy</span>
           <span className="text-gray-900">cart</span>
         </Link>
 
+        {/* Search Bar */}
+        {showSearch && (
+          <form
+            onSubmit={handleSearch}
+            className="flex-1 max-w-xl mx-auto"
+          >
+            <div className="relative flex items-center">
+              <FaSearch
+                size={14}
+                className="absolute left-3.5 text-gray-400 pointer-events-none"
+              />
+              <input
+                ref={inputRef}
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search products..."
+                className="w-full pl-9 pr-9 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  className="absolute right-3 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <FaTimes size={13} />
+                </button>
+              )}
+            </div>
+          </form>
+        )}
+
+        {/* Spacer when search is hidden */}
+        {!showSearch && <div className="flex-1" />}
+
         {/* Nav */}
-        <nav className="flex items-center gap-2">
+        <nav className="flex items-center gap-2 flex-shrink-0">
 
           {/* Cart */}
           <Link
@@ -44,7 +107,7 @@ function Header() {
             )}
           </Link>
 
-          {/* My Orders (only when logged in) */}
+          {/* My Orders (logged in only) */}
           {user && (
             <Link
               to="/orders"
@@ -55,7 +118,7 @@ function Header() {
             </Link>
           )}
 
-          {/* Register (only when not logged in) */}
+          {/* Register (logged out only) */}
           {!user && (
             <Link
               to="/Register"
