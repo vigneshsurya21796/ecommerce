@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "/products";
+const API = "https://fakestoreapi.com/products";
 
 const productsfunct = async () => {
   const response = await axios.get(API);
