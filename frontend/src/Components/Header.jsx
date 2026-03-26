@@ -16,21 +16,25 @@ function Header() {
 
   const [query, setQuery] = useState(searchParams.get("q") || "");
   const inputRef = useRef(null);
+  const debounceRef = useRef(null);
 
   // Keep input in sync when user navigates back/forward
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
   }, [searchParams]);
 
-  // Auto-search on every keystroke
+  // Debounced search — waits 300ms after user stops typing
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setQuery(value);
-    if (value.trim()) {
-      navigate(`/?q=${encodeURIComponent(value.trim())}`, { replace: true });
-    } else {
-      navigate("/", { replace: true });
-    }
+    clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      if (value.trim()) {
+        navigate(`/?q=${encodeURIComponent(value.trim())}`, { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    }, 300);
   };
 
   const clearSearch = () => {

@@ -6,10 +6,26 @@ import FilterComponent from "../../Components/filter";
 import { FaHeart, FaStar, FaRegStar, FaPlus, FaSearch } from "react-icons/fa";
 import { addToCart } from "../../features/Cart/cartSlice";
 import { toggleWishlist } from "../../features/Wishlist/wishlistSlice";
+import { toast } from "react-toastify";
+
+function SkeletonCard() {
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-pulse flex flex-col">
+      <div className="bg-gray-100 h-52" />
+      <div className="p-4 space-y-3">
+        <div className="h-3 bg-gray-100 rounded w-1/3" />
+        <div className="h-4 bg-gray-100 rounded w-full" />
+        <div className="h-4 bg-gray-100 rounded w-2/3" />
+        <div className="h-3 bg-gray-100 rounded w-1/4 mt-2" />
+        <div className="h-9 bg-gray-100 rounded-lg mt-3" />
+      </div>
+    </div>
+  );
+}
 
 function Dashboard() {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.products);
+  const { products, isLoading } = useSelector((state) => state.products);
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("q") || "";
 
@@ -152,7 +168,11 @@ function Dashboard() {
 
           {/* Products Grid */}
           <div className="flex-1">
-            {filteredProducts.length === 0 ? (
+            {isLoading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {[...Array(8)].map((_, i) => <SkeletonCard key={i} />)}
+              </div>
+            ) : filteredProducts.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 rounded-full mb-4">
                   <FaSearch size={24} className="text-indigo-300" />
@@ -183,7 +203,15 @@ function Dashboard() {
                       const isWishlisted = wishlistItems.find((w) => w.id === product.id);
                       return (
                         <button
-                          onClick={(e) => { e.preventDefault(); dispatch(toggleWishlist({ ...product, id: product.id })); }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            dispatch(toggleWishlist({ ...product, id: product.id }));
+                            if (isWishlisted) {
+                              toast.info("Removed from wishlist");
+                            } else {
+                              toast.success("Added to wishlist");
+                            }
+                          }}
                           className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white shadow-md hover:bg-red-50 transition-colors"
                           title={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
                         >

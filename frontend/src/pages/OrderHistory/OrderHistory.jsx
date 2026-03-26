@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getMyOrders } from "../../features/Orders/orderSlice";
 import { toast } from "react-toastify";
+import { FaClipboardList, FaCheck } from "react-icons/fa";
 
 const statusColors = {
   processing: "bg-yellow-100 text-yellow-700",
@@ -16,6 +17,45 @@ const paymentColors = {
   paid: "bg-green-100 text-green-700",
   failed: "bg-red-100 text-red-700",
 };
+
+const STEPS = ["processing", "shipped", "delivered"];
+
+function OrderStepper({ status }) {
+  if (status === "cancelled") {
+    return (
+      <div className="flex items-center gap-2 px-5 py-3 bg-red-50 border-t border-red-100">
+        <span className="w-2 h-2 bg-red-400 rounded-full flex-shrink-0" />
+        <span className="text-sm text-red-600 font-medium">Order Cancelled</span>
+      </div>
+    );
+  }
+  const currentStep = STEPS.indexOf(status);
+  return (
+    <div className="px-5 py-4 border-t border-gray-100">
+      <div className="flex items-center">
+        {STEPS.map((step, i) => (
+          <React.Fragment key={step}>
+            <div className="flex flex-col items-center flex-shrink-0">
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+                i <= currentStep ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-400"
+              }`}>
+                {i < currentStep ? <FaCheck size={10} /> : i + 1}
+              </div>
+              <span className={`text-xs mt-1 capitalize font-medium whitespace-nowrap ${
+                i <= currentStep ? "text-indigo-600" : "text-gray-400"
+              }`}>
+                {step}
+              </span>
+            </div>
+            {i < STEPS.length - 1 && (
+              <div className={`flex-1 h-0.5 mb-4 mx-2 ${i < currentStep ? "bg-indigo-600" : "bg-gray-200"}`} />
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function OrderHistory() {
   const dispatch = useDispatch();
@@ -50,12 +90,16 @@ function OrderHistory() {
 
       {orders.length === 0 ? (
         <div className="text-center py-20">
-          <p className="text-gray-500 text-lg">You haven't placed any orders yet.</p>
+          <div className="inline-flex items-center justify-center w-24 h-24 bg-indigo-50 rounded-full mb-6">
+            <FaClipboardList size={40} className="text-indigo-300" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">No orders yet</h2>
+          <p className="text-gray-500 mb-8">When you place an order, it will appear here.</p>
           <button
             onClick={() => navigate("/")}
-            className="mt-4 bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors shadow-sm"
           >
-            Shop Now
+            Start Shopping
           </button>
         </div>
       ) : (
@@ -105,6 +149,9 @@ function OrderHistory() {
                   </div>
                 ))}
               </div>
+
+              {/* Status Stepper */}
+              <OrderStepper status={order.orderStatus} />
 
               {/* Order Footer */}
               <div className="bg-gray-50 px-5 py-3 border-t border-gray-200 flex flex-wrap items-center justify-between gap-2">

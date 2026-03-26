@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productslist } from "../../features/Products/Productsslice";
+import { toast } from "react-toastify";
 import {
   addToCart,
   decrementQuantity,
@@ -128,7 +129,15 @@ function Singlepage() {
                     {singleProduct.category}
                   </span>
                   <button
-                    onClick={() => dispatch(toggleWishlist({ ...singleProduct, id: singleProduct.id }))}
+                    onClick={() => {
+                      const isWishlisted = wishlistItems.find((w) => w.id === singleProduct.id);
+                      dispatch(toggleWishlist({ ...singleProduct, id: singleProduct.id }));
+                      if (isWishlisted) {
+                        toast.info("Removed from wishlist");
+                      } else {
+                        toast.success("Added to wishlist");
+                      }
+                    }}
                     className={`flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full border transition-colors ${
                       wishlistItems.find((w) => w.id === singleProduct.id)
                         ? "bg-red-50 border-red-200 text-red-500"

@@ -16,6 +16,8 @@ import AdminProducts from "./pages/Admin/AdminProducts.jsx";
 import AdminUsers from "./pages/Admin/AdminUsers.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import ErrorBoundary from "./Components/ErrorBoundary";
 
 function App() {
   return (
@@ -35,15 +37,15 @@ function App() {
             <div className="container">
               <Header />
               <Routes>
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/" element={<ErrorBoundary><Dashboard /></ErrorBoundary>} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/cart" element={<Addtocart />} />
+                <Route path="/cart" element={<ProtectedRoute><Addtocart /></ProtectedRoute>} />
                 <Route path="/product/:id" element={<Singlepage />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/orders" element={<OrderHistory />} />
-                <Route path="/wishlist" element={<Wishlist />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+                <Route path="/orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
+                <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="*" element={<h1>Not Found</h1>} />
               </Routes>
             </div>
