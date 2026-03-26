@@ -109,7 +109,7 @@ function Wishlist() {
 
                   <div className="mt-auto">
                     <span className="text-xl font-bold text-gray-900 block mb-3">
-                      ${item.price.toFixed(2)}
+                      ₹{item.price.toFixed(2)}
                     </span>
                     <button
                       onClick={() => handleAddToCart(item)}

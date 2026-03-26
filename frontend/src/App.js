@@ -18,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import ErrorBoundary from "./Components/ErrorBoundary";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
                 <Route path="/orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
                 <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-                <Route path="*" element={<h1>Not Found</h1>} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
           } />
