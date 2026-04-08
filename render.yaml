@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: buycart
+    runtime: node
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8000
+      - key: serverDB
+        sync: false   # set manually in Render dashboard
+      - key: JWT_SECRET
+        sync: false   # set manually in Render dashboard
+      - key: REFRESH_TOKEN_SECRET
+        sync: false   # set manually in Render dashboard
+      - key: STRIPE_SECRET_KEY
+        sync: false   # set manually in Render dashboard
+      - key: CORS_ORIGIN
+        sync: false   # set to your Render service URL after first deploy
