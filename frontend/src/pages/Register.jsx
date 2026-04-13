@@ -86,8 +86,8 @@ function Register() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-8">
 
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-indigo-50 rounded-2xl mb-4">
-            <FaUser size={22} className="text-indigo-600" />
+          <div className="inline-flex items-center justify-center w-14 h-14 bg-sky-50 rounded-2xl mb-4">
+            <FaUser size={22} className="text-sky-600" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Create an account</h1>
         </div>
@@ -104,7 +104,7 @@ function Register() {
               onChange={onchange}
               onBlur={onBlur}
               className={`w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition ${
-                nameError ? "border-red-400 focus:ring-red-400" : "border-gray-200 focus:ring-indigo-500"
+                nameError ? "border-red-400 focus:ring-red-400" : "border-gray-200 focus:ring-sky-500"
               }`}
             />
             {nameError && (
@@ -125,7 +125,7 @@ function Register() {
               className={`w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition ${
                 emailError
                   ? "border-red-400 focus:ring-red-400"
-                  : "border-gray-200 focus:ring-indigo-500"
+                  : "border-gray-200 focus:ring-sky-500"
               }`}
             />
             {emailError && (
@@ -144,7 +144,7 @@ function Register() {
                 placeholder="••••••••"
                 onChange={onchange}
                 onBlur={onBlur}
-                className="w-full px-4 py-2.5 pr-10 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                className="w-full px-4 py-2.5 pr-10 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
               />
               <button
                 type="button"
@@ -197,7 +197,7 @@ function Register() {
                 className={`w-full px-4 py-2.5 pr-10 border rounded-lg text-sm focus:outline-none focus:ring-2 transition ${
                   passwordMismatch
                     ? "border-red-400 focus:ring-red-400"
-                    : "border-gray-200 focus:ring-indigo-500"
+                    : "border-gray-200 focus:ring-sky-500"
                 }`}
               />
               <button
@@ -215,7 +215,7 @@ function Register() {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white py-2.5 rounded-lg font-semibold text-sm transition-colors mt-2 shadow-sm"
+            className="w-full bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white py-2.5 rounded-lg font-semibold text-sm transition-colors mt-2 shadow-sm"
           >
             Create Account
           </button>
@@ -223,7 +223,7 @@ function Register() {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Already have an account?{" "}
-          <Link to="/login" className="text-indigo-600 hover:text-indigo-800 font-semibold">
+          <Link to="/login" className="text-sky-600 hover:text-sky-800 font-semibold">
             Sign in
           </Link>
         </p>

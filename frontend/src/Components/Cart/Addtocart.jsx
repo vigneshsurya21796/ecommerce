@@ -22,14 +22,14 @@ const Addtocart = () => {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-indigo-50 rounded-full mb-6">
-            <FaShoppingBag size={40} className="text-indigo-300" />
+          <div className="inline-flex items-center justify-center w-24 h-24 bg-sky-50 rounded-full mb-6">
+            <FaShoppingBag size={40} className="text-sky-300" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h2>
           <p className="text-gray-500 mb-8">Looks like you haven't added anything yet.</p>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors shadow-sm"
           >
             <FaArrowLeft size={13} />
             Continue Shopping
@@ -55,7 +55,7 @@ const Addtocart = () => {
           </div>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 text-sky-600 hover:text-sky-800 text-sm font-medium transition-colors"
           >
             <FaArrowLeft size={11} />
             Continue Shopping
@@ -93,7 +93,7 @@ const Addtocart = () => {
                   </Link>
                   <div className="min-w-0">
                     <Link to={`/product/${item.id}`}>
-                      <p className="text-sm font-semibold text-gray-800 line-clamp-2 hover:text-indigo-600 transition-colors leading-snug">
+                      <p className="text-sm font-semibold text-gray-800 line-clamp-2 hover:text-sky-600 transition-colors leading-snug">
                         {item.name}
                       </p>
                     </Link>
@@ -112,7 +112,7 @@ const Addtocart = () => {
                   <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-2 py-1">
                     <button
                       onClick={() => dispatch(decrementQuantity(item.id))}
-                      className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-600 hover:bg-indigo-100 hover:text-indigo-700 transition-colors font-bold text-base"
+                      className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-600 hover:bg-sky-100 hover:text-sky-700 transition-colors font-bold text-base"
                     >
                       −
                     </button>
@@ -121,7 +121,7 @@ const Addtocart = () => {
                     </span>
                     <button
                       onClick={() => dispatch(incrementQuantity(item.id))}
-                      className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-600 hover:bg-indigo-100 hover:text-indigo-700 transition-colors font-bold text-base"
+                      className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-600 hover:bg-sky-100 hover:text-sky-700 transition-colors font-bold text-base"
                     >
                       +
                     </button>
@@ -176,7 +176,7 @@ const Addtocart = () => {
                     <FaTag size={10} />
                     Have a coupon?
                   </span>
-                  <button className="text-indigo-500 hover:text-indigo-700 font-medium transition-colors">
+                  <button className="text-sky-500 hover:text-sky-700 font-medium transition-colors">
                     Apply
                   </button>
                 </div>
@@ -187,13 +187,13 @@ const Addtocart = () => {
               {/* Total */}
               <div className="flex justify-between items-center mb-6">
                 <span className="text-base font-bold text-gray-900">Total</span>
-                <span className="text-xl font-bold text-indigo-600">₹{grandTotal.toFixed(2)}</span>
+                <span className="text-xl font-bold text-sky-600">₹{grandTotal.toFixed(2)}</span>
               </div>
 
               {/* CTA */}
               <Link
                 to="/checkout"
-                className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold py-3.5 rounded-xl transition-colors shadow-md hover:shadow-lg text-sm"
+                className="w-full flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white font-semibold py-3.5 rounded-xl transition-colors shadow-md hover:shadow-lg text-sm"
               >
                 Proceed to Checkout
               </Link>

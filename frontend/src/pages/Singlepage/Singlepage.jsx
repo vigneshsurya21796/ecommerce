@@ -62,7 +62,7 @@ function Singlepage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600"></div>
       </div>
     );
   }
@@ -105,7 +105,7 @@ function Singlepage() {
         {/* Back button */}
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 text-sm font-medium mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-sky-600 hover:text-sky-800 text-sm font-medium mb-8 transition-colors"
         >
           <FaArrowLeft size={12} />
           Back to Products
@@ -125,7 +125,7 @@ function Singlepage() {
               <div>
                 {/* Category badge + Wishlist */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="inline-block bg-indigo-50 text-indigo-700 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full">
+                  <span className="inline-block bg-sky-50 text-sky-700 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full">
                     {singleProduct.category}
                   </span>
                   <button
@@ -166,7 +166,7 @@ function Singlepage() {
 
                 {/* Price */}
                 <div className="mb-5">
-                  <span className="text-3xl font-bold text-indigo-600">
+                  <span className="text-3xl font-bold text-sky-600">
                     ₹{singleProduct.price.toFixed(2)}
                   </span>
                 </div>
@@ -181,30 +181,30 @@ function Singlepage() {
 
               {/* Add to Cart / Quantity Controls */}
               {cartItem ? (
-                <div className="flex items-center gap-4 bg-indigo-50 p-4 rounded-xl">
+                <div className="flex items-center gap-4 bg-sky-50 p-4 rounded-xl">
                   <button
                     onClick={() => decrement(cartItem.id)}
-                    className="w-10 h-10 bg-white border border-indigo-200 text-indigo-600 font-bold text-xl rounded-lg hover:bg-indigo-600 hover:text-white transition-colors"
+                    className="w-10 h-10 bg-white border border-sky-200 text-sky-600 font-bold text-xl rounded-lg hover:bg-sky-600 hover:text-white transition-colors"
                   >
                     −
                   </button>
-                  <span className="text-xl font-bold text-indigo-800 w-8 text-center">
+                  <span className="text-xl font-bold text-sky-800 w-8 text-center">
                     {cartItem.quantity}
                   </span>
                   <button
                     onClick={() => increment(cartItem.id)}
-                    className="w-10 h-10 bg-white border border-indigo-200 text-indigo-600 font-bold text-xl rounded-lg hover:bg-indigo-600 hover:text-white transition-colors"
+                    className="w-10 h-10 bg-white border border-sky-200 text-sky-600 font-bold text-xl rounded-lg hover:bg-sky-600 hover:text-white transition-colors"
                   >
                     +
                   </button>
-                  <span className="text-sm text-indigo-600 font-medium ml-2">
+                  <span className="text-sm text-sky-600 font-medium ml-2">
                     In your cart
                   </span>
                 </div>
               ) : (
                 <button
                   onClick={() => productadd(singleProduct)}
-                  className="w-full flex items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white py-3.5 rounded-xl font-semibold text-base transition-colors shadow-md hover:shadow-lg"
+                  className="w-full flex items-center justify-center gap-3 bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white py-3.5 rounded-xl font-semibold text-base transition-colors shadow-md hover:shadow-lg"
                 >
                   <FaShoppingCart size={17} />
                   Add to Cart
@@ -255,7 +255,7 @@ function Singlepage() {
                     </div>
 
                     <div className="p-3 flex flex-col flex-1">
-                      <p className="text-xs font-semibold text-gray-800 line-clamp-2 mb-1 leading-snug group-hover:text-indigo-600 transition-colors">
+                      <p className="text-xs font-semibold text-gray-800 line-clamp-2 mb-1 leading-snug group-hover:text-sky-600 transition-colors">
                         {product.title}
                       </p>
                       {/* Mini rating */}
@@ -264,7 +264,7 @@ function Singlepage() {
                         <span className="text-xs text-gray-500">{product.rating?.rate ?? "—"}</span>
                       </div>
                       <div className="flex items-center justify-between mt-auto">
-                        <span className="text-indigo-600 font-bold text-sm">
+                        <span className="text-sky-600 font-bold text-sm">
                           ₹{product.price.toFixed(2)}
                         </span>
                         {inCart && (

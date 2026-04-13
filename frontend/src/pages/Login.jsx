@@ -56,8 +56,8 @@ function Login() {
 
         {/* Icon + Title */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-indigo-50 rounded-2xl mb-4">
-            <FaSignInAlt size={22} className="text-indigo-600" />
+          <div className="inline-flex items-center justify-center w-14 h-14 bg-sky-50 rounded-2xl mb-4">
+            <FaSignInAlt size={22} className="text-sky-600" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
           <p className="text-gray-500 text-sm mt-1">Sign in to your account</p>
@@ -77,7 +77,7 @@ function Login() {
               onChange={onchange}
               onBlur={onBlur}
               className={`w-full px-4 py-2.5 border rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 transition ${
-                emailError ? "border-red-400 focus:ring-red-400" : "border-gray-200 focus:ring-indigo-500"
+                emailError ? "border-red-400 focus:ring-red-400" : "border-gray-200 focus:ring-sky-500"
               }`}
             />
             {emailError && (
@@ -97,7 +97,7 @@ function Login() {
                 placeholder="••••••••"
                 onChange={onchange}
                 onBlur={onBlur}
-                className="w-full px-4 py-2.5 pr-10 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                className="w-full px-4 py-2.5 pr-10 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
               />
               <button
                 type="button"
@@ -111,7 +111,7 @@ function Login() {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white py-2.5 rounded-lg font-semibold text-sm transition-colors mt-2 shadow-sm"
+            className="w-full bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white py-2.5 rounded-lg font-semibold text-sm transition-colors mt-2 shadow-sm"
           >
             Sign In
           </button>
@@ -121,7 +121,7 @@ function Login() {
           Don&apos;t have an account?{" "}
           <Link
             to="/register"
-            className="text-indigo-600 hover:text-indigo-800 font-semibold"
+            className="text-sky-600 hover:text-sky-800 font-semibold"
           >
             Create one
           </Link>

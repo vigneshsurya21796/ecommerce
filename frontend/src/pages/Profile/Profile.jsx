@@ -108,7 +108,7 @@ function Profile() {
         {/* ── Profile Header Card ── */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-center gap-6">
           {/* Avatar */}
-          <div className="w-20 h-20 rounded-2xl bg-indigo-600 flex items-center justify-center flex-shrink-0">
+          <div className="w-20 h-20 rounded-2xl bg-sky-600 flex items-center justify-center flex-shrink-0">
             {initials
               ? <span className="text-2xl font-bold text-white">{initials}</span>
               : <FaUser size={32} className="text-white opacity-80" />
@@ -125,8 +125,8 @@ function Profile() {
           {/* Stats */}
           <div className="hidden sm:flex items-center gap-6 flex-shrink-0">
             <div className="text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-indigo-50 rounded-xl mb-1 mx-auto">
-                <FaShoppingBag size={16} className="text-indigo-500" />
+              <div className="flex items-center justify-center w-10 h-10 bg-sky-50 rounded-xl mb-1 mx-auto">
+                <FaShoppingBag size={16} className="text-sky-500" />
               </div>
               <p className="text-lg font-bold text-gray-800">{orderCount}</p>
               <p className="text-xs text-gray-400">Orders</p>
@@ -145,13 +145,13 @@ function Profile() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-50">
             <div className="flex items-center gap-2">
-              <FaUser size={14} className="text-indigo-500" />
+              <FaUser size={14} className="text-sky-500" />
               <h2 className="font-semibold text-gray-800">Profile Information</h2>
             </div>
             {!editingInfo && (
               <button
                 onClick={() => setEditingInfo(true)}
-                className="flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
+                className="flex items-center gap-1.5 text-sm text-sky-600 hover:text-sky-800 font-medium transition-colors"
               >
                 <FaEdit size={12} />
                 Edit
@@ -169,7 +169,7 @@ function Profile() {
                 onChange={(e) => setInfoForm((p) => ({ ...p, name: e.target.value }))}
                 onBlur={() => setInfoTouched((p) => ({ ...p, name: true }))}
                 disabled={!editingInfo}
-                className={`w-full px-4 py-2.5 border rounded-lg text-sm transition focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                className={`w-full px-4 py-2.5 border rounded-lg text-sm transition focus:outline-none focus:ring-2 focus:ring-sky-500 ${
                   editingInfo ? "bg-white border-gray-200" : "bg-gray-50 border-gray-100 text-gray-500 cursor-not-allowed"
                 }`}
               />
@@ -190,7 +190,7 @@ function Profile() {
                     emailError
                       ? "border-red-400 focus:ring-red-400"
                       : editingInfo
-                      ? "bg-white border-gray-200 focus:ring-indigo-500"
+                      ? "bg-white border-gray-200 focus:ring-sky-500"
                       : "bg-gray-50 border-gray-100 text-gray-500 cursor-not-allowed"
                   }`}
                 />
@@ -203,7 +203,7 @@ function Profile() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition-colors disabled:opacity-60"
+                  className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold rounded-lg transition-colors disabled:opacity-60"
                 >
                   {isLoading && lastAction === "info" ? "Saving..." : "Save Changes"}
                 </button>
@@ -227,13 +227,13 @@ function Profile() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-50">
             <div className="flex items-center gap-2">
-              <FaLock size={13} className="text-indigo-500" />
+              <FaLock size={13} className="text-sky-500" />
               <h2 className="font-semibold text-gray-800">Change Password</h2>
             </div>
             {!editingPw && (
               <button
                 onClick={() => setEditingPw(true)}
-                className="flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
+                className="flex items-center gap-1.5 text-sm text-sky-600 hover:text-sky-800 font-medium transition-colors"
               >
                 <FaEdit size={12} />
                 Change
@@ -266,7 +266,7 @@ function Profile() {
                       className={`w-full px-4 py-2.5 pr-10 border rounded-lg text-sm focus:outline-none focus:ring-2 transition ${
                         key === "confirmPassword" && pwMismatch
                           ? "border-red-400 focus:ring-red-400"
-                          : "border-gray-200 focus:ring-indigo-500"
+                          : "border-gray-200 focus:ring-sky-500"
                       }`}
                     />
                     <button
@@ -313,7 +313,7 @@ function Profile() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition-colors disabled:opacity-60"
+                  className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold rounded-lg transition-colors disabled:opacity-60"
                 >
                   {isLoading && lastAction === "password" ? "Saving..." : "Update Password"}
                 </button>

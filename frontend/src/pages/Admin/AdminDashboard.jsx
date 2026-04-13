@@ -37,15 +37,15 @@ function AdminDashboard() {
 
       {isLoading && !stats ? (
         <div className="flex items-center justify-center h-40">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600" />
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-600" />
         </div>
       ) : (
         <>
           {/* Stat Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-10">
-            <StatCard icon={FaRupeeSign}  label="Total Revenue"  value={stats ? `₹${stats.totalRevenue.toFixed(2)}` : null} color="bg-indigo-500" />
+            <StatCard icon={FaRupeeSign}  label="Total Revenue"  value={stats ? `₹${stats.totalRevenue.toFixed(2)}` : null} color="bg-sky-500" />
             <StatCard icon={FaShoppingBag} label="Total Orders"  value={stats?.totalOrders}   color="bg-blue-500"   />
-            <StatCard icon={FaUsers}       label="Total Users"   value={stats?.totalUsers}    color="bg-purple-500" />
+            <StatCard icon={FaUsers}       label="Total Users"   value={stats?.totalUsers}    color="bg-sky-400" />
             <StatCard icon={FaBox}         label="Products (DB)" value={stats?.totalProducts} color="bg-emerald-500" />
           </div>
 

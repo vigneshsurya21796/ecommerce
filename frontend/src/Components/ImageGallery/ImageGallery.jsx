@@ -57,7 +57,7 @@ function ImageGallery({ images = [], alt = "" }) {
                   key={i}
                   onClick={() => setSelected(i)}
                   className={`w-2 h-2 rounded-full transition-colors ${
-                    i === selected ? "bg-indigo-600" : "bg-gray-300"
+                    i === selected ? "bg-sky-600" : "bg-gray-300"
                   }`}
                 />
               ))}
@@ -74,8 +74,8 @@ function ImageGallery({ images = [], alt = "" }) {
                 onClick={() => setSelected(i)}
                 className={`flex-shrink-0 w-16 h-16 rounded-lg border-2 overflow-hidden bg-gray-50 transition-all ${
                   i === selected
-                    ? "border-indigo-500 shadow-md"
-                    : "border-gray-200 hover:border-indigo-300"
+                    ? "border-sky-500 shadow-md"
+                    : "border-gray-200 hover:border-sky-300"
                 }`}
               >
                 <img

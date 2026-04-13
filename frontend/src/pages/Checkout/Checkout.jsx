@@ -125,7 +125,7 @@ function CheckoutForm({ totalAmount }) {
                 value={address[field.name]}
                 onChange={handleChange}
                 placeholder={field.placeholder}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
           ))}
@@ -167,7 +167,7 @@ function CheckoutForm({ totalAmount }) {
       <button
         type="submit"
         disabled={!stripe || !clientSecret || processing || isLoading}
-        className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
+        className="w-full bg-sky-600 hover:bg-sky-700 disabled:bg-sky-300 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
       >
         {processing || isLoading
           ? "Processing..."

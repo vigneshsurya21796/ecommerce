@@ -37,7 +37,7 @@ function AdminOrders() {
 
       {isLoading && orders.length === 0 ? (
         <div className="flex justify-center py-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600" />
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-600" />
         </div>
       ) : (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -68,7 +68,7 @@ function AdminOrders() {
                       <select
                         value={order.paymentStatus}
                         onChange={(e) => handleStatus(order._id, "paymentStatus", e.target.value)}
-                        className={`text-xs font-semibold px-2 py-1 rounded-full border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-400 ${payBadge[order.paymentStatus]}`}
+                        className={`text-xs font-semibold px-2 py-1 rounded-full border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-sky-400 ${payBadge[order.paymentStatus]}`}
                       >
                         {PAYMENT_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                       </select>
@@ -79,7 +79,7 @@ function AdminOrders() {
                       <select
                         value={order.orderStatus}
                         onChange={(e) => handleStatus(order._id, "orderStatus", e.target.value)}
-                        className={`text-xs font-semibold px-2 py-1 rounded-full border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-400 ${orderBadge[order.orderStatus]}`}
+                        className={`text-xs font-semibold px-2 py-1 rounded-full border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-sky-400 ${orderBadge[order.orderStatus]}`}
                       >
                         {ORDER_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                       </select>

@@ -25,7 +25,7 @@ function AdminUsers() {
 
       {isLoading && users.length === 0 ? (
         <div className="flex justify-center py-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600" />
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-600" />
         </div>
       ) : (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -42,7 +42,7 @@ function AdminUsers() {
                 {users.map((u) => (
                   <tr key={u._id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-3">
-                      <div className="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-sm">
+                      <div className="w-9 h-9 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 font-bold text-sm">
                         {u.name?.charAt(0).toUpperCase() || "?"}
                       </div>
                     </td>
@@ -50,7 +50,7 @@ function AdminUsers() {
                     <td className="px-4 py-3 text-gray-500">{u.email}</td>
                     <td className="px-4 py-3">
                       {u.isAdmin ? (
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-700">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-sky-100 text-sky-700">
                           <FaShieldAlt size={10} /> Admin
                         </span>
                       ) : (
@@ -68,7 +68,7 @@ function AdminUsers() {
                         className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${
                           u.isAdmin
                             ? "bg-red-50 text-red-600 hover:bg-red-100"
-                            : "bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
+                            : "bg-sky-50 text-sky-600 hover:bg-sky-100"
                         }`}
                       >
                         {u.isAdmin ? "Remove Admin" : "Make Admin"}

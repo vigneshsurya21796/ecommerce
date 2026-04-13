@@ -51,7 +51,7 @@ function FilterComponent({ onFilterChange }) {
                     onClick={() => setSelectedCategory(category)}
                     className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${
                         selectedCategory === category
-                            ? "bg-indigo-600 text-white shadow-md"
+                            ? "bg-sky-600 text-white shadow-md"
                             : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                     }`}
                 >
@@ -73,7 +73,7 @@ function FilterComponent({ onFilterChange }) {
                     onClick={() => setSelectedPriceRange(range.label)}
                     className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${
                         selectedPriceRange === range.label
-                            ? "bg-indigo-500 text-white shadow-md"
+                            ? "bg-sky-500 text-white shadow-md"
                             : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                     }`}
                 >
@@ -93,11 +93,11 @@ function FilterComponent({ onFilterChange }) {
 
         {/* Current Filters */}
         {(selectedCategory !== "All Categories" || selectedPriceRange !== "All") && (
-            <div className="mt-6 p-3 bg-indigo-50 rounded-lg border border-indigo-200">
-              <h4 className="text-sm font-medium text-indigo-800 mb-2">
+            <div className="mt-6 p-3 bg-sky-50 rounded-lg border border-sky-200">
+              <h4 className="text-sm font-medium text-sky-800 mb-2">
                 Active Filters:
               </h4>
-              <div className="space-y-1 text-xs text-indigo-700">
+              <div className="space-y-1 text-xs text-sky-700">
                 {selectedCategory !== "All Categories" && (
                     <div>Category: {selectedCategory}</div>
                 )}

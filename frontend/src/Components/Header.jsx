@@ -57,7 +57,7 @@ function Header() {
 
         {/* Logo */}
         <Link to="/" className="text-2xl font-bold tracking-tight flex-shrink-0">
-          <span className="text-indigo-600">buy</span>
+          <span className="text-sky-600">buy</span>
           <span className="text-gray-900">cart</span>
         </Link>
 
@@ -72,7 +72,7 @@ function Header() {
                 value={query}
                 onChange={handleSearchChange}
                 placeholder="Search products..."
-                className="w-full pl-9 pr-9 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition"
+                className="w-full pl-9 pr-9 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent focus:bg-white transition"
               />
               {query && (
                 <button
@@ -108,11 +108,11 @@ function Header() {
           {/* Cart */}
           <Link
             to="/cart"
-            className="relative p-2 text-gray-500 hover:text-indigo-600 transition-colors rounded-lg hover:bg-indigo-50"
+            className="relative p-2 text-gray-500 hover:text-sky-600 transition-colors rounded-lg hover:bg-sky-50"
           >
             <TiShoppingCart size={24} />
             {totalQuantity > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 bg-indigo-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold leading-none">
+              <span className="absolute -top-0.5 -right-0.5 bg-sky-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold leading-none">
                 {totalQuantity}
               </span>
             )}
@@ -124,7 +124,7 @@ function Header() {
               {user.isAdmin && (
                 <Link
                   to="/admin"
-                  className="flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-800 font-medium px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
+                  className="flex items-center gap-1.5 text-sm text-sky-600 hover:text-sky-800 font-medium px-3 py-2 rounded-lg hover:bg-sky-50 transition-colors"
                 >
                   <FaChartBar size={13} />
                   Admin
@@ -132,14 +132,14 @@ function Header() {
               )}
               <Link
                 to="/orders"
-                className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
+                className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-sky-600 font-medium px-3 py-2 rounded-lg hover:bg-sky-50 transition-colors"
               >
                 <FaClipboardList size={13} />
                 My Orders
               </Link>
               <Link
                 to="/profile"
-                className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors text-white text-sm font-bold"
+                className="flex items-center justify-center w-8 h-8 rounded-lg bg-sky-600 hover:bg-sky-700 transition-colors text-white text-sm font-bold"
                 title={`${user.name} — Profile`}
               >
                 {user.name?.charAt(0).toUpperCase()}
@@ -151,7 +151,7 @@ function Header() {
           {!user && (
             <Link
               to="/register"
-              className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
+              className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-sky-600 font-medium px-3 py-2 rounded-lg hover:bg-sky-50 transition-colors"
             >
               <FaUser size={13} />
               Register
@@ -170,7 +170,7 @@ function Header() {
           ) : (
             <Link
               to="/login"
-              className="flex items-center gap-1.5 text-sm text-white bg-indigo-600 hover:bg-indigo-700 font-medium px-4 py-2 rounded-lg transition-colors shadow-sm"
+              className="flex items-center gap-1.5 text-sm text-white bg-sky-600 hover:bg-sky-700 font-medium px-4 py-2 rounded-lg transition-colors shadow-sm"
             >
               <FaSignInAlt size={13} />
               Login

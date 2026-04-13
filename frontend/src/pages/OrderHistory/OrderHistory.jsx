@@ -37,18 +37,18 @@ function OrderStepper({ status }) {
           <React.Fragment key={step}>
             <div className="flex flex-col items-center flex-shrink-0">
               <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
-                i <= currentStep ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-400"
+                i <= currentStep ? "bg-sky-600 text-white" : "bg-gray-100 text-gray-400"
               }`}>
                 {i < currentStep ? <FaCheck size={10} /> : i + 1}
               </div>
               <span className={`text-xs mt-1 capitalize font-medium whitespace-nowrap ${
-                i <= currentStep ? "text-indigo-600" : "text-gray-400"
+                i <= currentStep ? "text-sky-600" : "text-gray-400"
               }`}>
                 {step}
               </span>
             </div>
             {i < STEPS.length - 1 && (
-              <div className={`flex-1 h-0.5 mb-4 mx-2 ${i < currentStep ? "bg-indigo-600" : "bg-gray-200"}`} />
+              <div className={`flex-1 h-0.5 mb-4 mx-2 ${i < currentStep ? "bg-sky-600" : "bg-gray-200"}`} />
             )}
           </React.Fragment>
         ))}
@@ -79,7 +79,7 @@ function OrderHistory() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-10 h-10 border-4 border-sky-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -90,14 +90,14 @@ function OrderHistory() {
 
       {orders.length === 0 ? (
         <div className="text-center py-20">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-indigo-50 rounded-full mb-6">
-            <FaClipboardList size={40} className="text-indigo-300" />
+          <div className="inline-flex items-center justify-center w-24 h-24 bg-sky-50 rounded-full mb-6">
+            <FaClipboardList size={40} className="text-sky-300" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">No orders yet</h2>
           <p className="text-gray-500 mb-8">When you place an order, it will appear here.</p>
           <button
             onClick={() => navigate("/")}
-            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors shadow-sm"
           >
             Start Shopping
           </button>

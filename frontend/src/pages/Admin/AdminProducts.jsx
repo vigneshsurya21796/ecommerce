@@ -45,7 +45,7 @@ function ProductModal({ initial, onSave, onClose, loading }) {
                 onChange={change}
                 placeholder={f.placeholder}
                 step={f.name === "price" ? "0.01" : undefined}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
           ))}
@@ -56,7 +56,7 @@ function ProductModal({ initial, onSave, onClose, loading }) {
               name="category"
               value={form.category}
               onChange={change}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             >
               <option value="">Select category</option>
               {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -71,7 +71,7 @@ function ProductModal({ initial, onSave, onClose, loading }) {
               onChange={change}
               rows={3}
               placeholder="Product description..."
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none"
             />
           </div>
 
@@ -79,7 +79,7 @@ function ProductModal({ initial, onSave, onClose, loading }) {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg text-sm transition-colors disabled:opacity-60"
+              className="flex-1 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2.5 rounded-lg text-sm transition-colors disabled:opacity-60"
             >
               {loading ? "Saving..." : initial ? "Save Changes" : "Add Product"}
             </button>
@@ -126,7 +126,7 @@ function AdminProducts() {
         </h1>
         <button
           onClick={() => setModal("add")}
-          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors"
+          className="flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors"
         >
           <FaPlus size={12} /> Add Product
         </button>
@@ -134,7 +134,7 @@ function AdminProducts() {
 
       {isLoading && products.length === 0 ? (
         <div className="flex justify-center py-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600" />
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-600" />
         </div>
       ) : (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -159,7 +159,7 @@ function AdminProducts() {
                       <p className="font-medium text-gray-800 line-clamp-2 leading-snug">{p.title}</p>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-full capitalize">{p.category}</span>
+                      <span className="text-xs bg-sky-50 text-sky-700 px-2 py-0.5 rounded-full capitalize">{p.category}</span>
                     </td>
                     <td className="px-4 py-3 font-semibold text-gray-800">₹{p.price.toFixed(2)}</td>
                     <td className="px-4 py-3">
@@ -170,7 +170,7 @@ function AdminProducts() {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <button onClick={() => setModal(p)}
-                          className="p-2 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">
+                          className="p-2 rounded-lg text-gray-400 hover:text-sky-600 hover:bg-sky-50 transition-colors">
                           <FaEdit size={13} />
                         </button>
                         <button onClick={() => handleDelete(p._id, p.title)}
@@ -187,7 +187,7 @@ function AdminProducts() {
               <div className="text-center py-16">
                 <p className="text-gray-400 mb-3">No products in your database yet.</p>
                 <button onClick={() => setModal("add")}
-                  className="text-indigo-600 font-medium text-sm hover:text-indigo-800">
+                  className="text-sky-600 font-medium text-sm hover:text-sky-800">
                   + Add your first product
                 </button>
               </div>
